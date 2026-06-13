@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Uncle Joe and the Lost Fraction Rocket Parts</title>
+  <style>
+    :root{
+      --bg:#040719;
+      --bg2:#091441;
+      --card:rgba(9,18,50,.78);
+      --card2:rgba(20,34,82,.86);
+      --line:rgba(255,255,255,.16);
+      --text:#f7fbff;
+      --muted:#b8c6ed;
+      --cyan:#75f4ff;
+      --gold:#ffd96a;
+      --green:#6dff9f;
+      --pink:#ff79be;
+      --red:#ff6580;
+      --locked:#717b9c;
+      --shadow:0 18px 50px rgba(0,0,0,.46);
+      --radius:24px;
+      --safeTop:env(safe-area-inset-top, 0px);
+      --safeBottom:env(safe-area-inset-bottom, 0px);
+    }
+
+    *{box-sizing:border-box}
+
+    html, body{
+      margin:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 14% 16%, rgba(117,244,255,.18), transparent 24%),
+        radial-gradient(circle at 84% 16%, rgba(255,217,106,.16), transparent 25%),
+        radial-gradient(circle at 45% 95%, rgba(124,82,255,.25), transparent 30%),
+        linear-gradient(150deg,var(--bg),var(--bg2) 62%,#040719);
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.8px),
+        radial-gradient(circle, rgba(117,244,255,.7) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(255,217,106,.7) 0 1px, transparent 1.5px);
+      background-size:92px 92px, 142px 142px, 218px 218px;
+      background-position:0 0, 40px 60px, 110px 20px;
+      opacity:.42;
+      pointer-events:none;
+      animation:stars 60s linear infinite;
+    }
+
+    @keyframes stars{to{transform:translate(-150px,90px)}}
+
+    button, a{font:inherit;-webkit-tap-highlight-color:transparent}
+
+    .app{
+      position:relative;
+      z-index:1;
+      width:100vw;
+      height:100dvh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:max(10px,var(--safeTop)) 10px max(10px,var(--safeBottom));
+    }
+
+    .screen{
+      width:min(1220px,100%);
+      height:min(780px,100%);
+      border-radius:clamp(18px,3vw,34px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+        rgba(7,12,30,.72);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter:blur(10px);
+    }
+
+    .hidden{display:none!important}
+
+    .topbar{
+      position:absolute;
+      z-index:20;
+      top:0; left:0; right:0;
+      height:64px;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:linear-gradient(180deg, rgba(0,0,0,.34), transparent);
+    }
+
+    .brand{min-width:0;line-height:1.05}
+    .brand .title{
+      font-size:clamp(18px,2.6vw,30px);
+      font-weight:1000;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-shadow:0 3px 18px rgba(0,0,0,.65);
+    }
+    .brand .sub{
+      font-size:clamp(11px,1.4vw,14px);
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pill{
+      border-radius:999px;
+      border:1px solid rgba(117,244,255,.34);
+      background:rgba(8,18,45,.72);
+      padding:9px 12px;
+      font-weight:900;
+      color:var(--text);
+      white-space:nowrap;
+      box-shadow:inset 0 0 18px rgba(117,244,255,.08);
+    }
+
+    .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+    .btn{
+      border:0;
+      border-radius:999px;
+      color:var(--text);
+      font-weight:950;
+      cursor:pointer;
+      transition:transform .15s ease,filter .15s ease,box-shadow .15s ease;
+      box-shadow:0 10px 25px rgba(0,0,0,.28);
+    }
+
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    .btn:active{transform:translateY(1px) scale(.99)}
+
+    .primary{
+      padding:14px 22px;
+      min-width:210px;
+      background:linear-gradient(135deg,#00d8ff,#6c7cff 58%,#c47dff);
+      font-size:clamp(15px,2vw,18px);
+    }
+
+    .gold{
+      background:linear-gradient(135deg,#ffe082,#ffad42 58%,#ff6686);
+      color:#211000;
+    }
+
+    .ghost{
+      padding:10px 14px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    .small{
+      padding:8px 11px;
+      background:rgba(117,244,255,.14);
+      border:1px solid rgba(117,244,255,.28);
+      font-size:12px;
+    }
+
+    .cover{
+      position:absolute;
+      inset:0;
+      display:grid;
+      grid-template-columns:1fr 1.05fr;
+      gap:24px;
+      padding:76px 28px 28px;
+    }
+
+    .storyCard{
+      align-self:center;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:clamp(18px,3vw,32px);
+      box-shadow:var(--shadow);
+      max-width:580px;
+    }
+
+    .chapter{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--cyan),var(--gold));
+      color:#061426;
+      padding:8px 12px;
+      font-size:13px;
+      font-weight:1000;
+      margin-bottom:14px;
+    }
+
+    .storyCard h1{
+      margin:0 0 12px;
+      font-size:clamp(31px,5vw,58px);
+      line-height:.95;
+      letter-spacing:-1.6px;
+    }
+
+    .storyCard p{
+      margin:0 0 12px;
+      color:#dce7ff;
+      line-height:1.48;
+      font-size:clamp(15px,2vw,19px);
+    }
+
+    .heroScene{
+      position:relative;
+      min-height:360px;
+    }
+
+    .planet{
+      position:absolute;
+      right:3%;
+      bottom:0;
+      width:min(500px,90%);
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.43), transparent 14%),
+        radial-gradient(circle at 67% 63%, rgba(0,0,0,.24), transparent 21%),
+        linear-gradient(135deg,#825dff,#20e5ce 50%,#2a62ff);
+      box-shadow:
+        inset -48px -62px 96px rgba(0,0,0,.42),
+        inset 20px 22px 54px rgba(255,255,255,.2),
+        0 30px 90px rgba(56,218,255,.24);
+      opacity:.92;
+    }
+    .planet::before{
+      content:"";
+      position:absolute;
+      inset:16%;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 34%, rgba(255,217,106,.46), transparent 0 8%, transparent 9%),
+        radial-gradient(circle at 68% 42%, rgba(255,255,255,.25), transparent 0 10%, transparent 11%),
+        radial-gradient(circle at 50% 72%, rgba(255,110,171,.28), transparent 0 14%, transparent 15%);
+    }
+    .planet::after{
+      content:"";
+      position:absolute;
+      left:-13%; right:-13%; top:47%;
+      height:44px;
+      border-radius:50%;
+      border:10px solid rgba(255,217,106,.36);
+      transform:rotate(-13deg);
+      box-shadow:0 0 28px rgba(255,217,106,.22);
+    }
+
+
+    .coverArt{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-height:360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .coverPicture{
+      width:min(560px, 100%);
+      max-height:100%;
+      object-fit:contain;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 24px 70px rgba(0,0,0,.46), 0 0 40px rgba(117,244,255,.16);
+      background:rgba(255,255,255,.06);
+    }
+
+    .coverGlow{
+      position:absolute;
+      inset:8%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(117,244,255,.22), transparent 62%);
+      filter:blur(12px);
+      z-index:-1;
+    }
+
+    .joe{
+      position:absolute;
+      left:4%;
+      bottom:7%;
+      width:118px;
+      height:210px;
+      filter:drop-shadow(0 12px 14px rgba(0,0,0,.45));
+      animation:floatJoe 3.2s ease-in-out infinite;
+    }
+    @keyframes floatJoe{50%{transform:translateY(-8px)}}
+    .helmet{
+      position:absolute;
+      top:0; left:18px;
+      width:82px; height:82px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 25%,#fff,rgba(205,244,255,.75) 40%,rgba(125,179,244,.46) 72%);
+      border:4px solid rgba(255,255,255,.82);
+    }
+    .visor{
+      position:absolute;
+      left:17px; top:30px;
+      width:48px; height:25px;
+      border-radius:30px;
+      background:linear-gradient(135deg,#15213f,#5ee8ff);
+      border:2px solid rgba(255,255,255,.5);
+    }
+    .body{
+      position:absolute;
+      top:74px; left:28px;
+      width:62px; height:84px;
+      border-radius:20px 20px 16px 16px;
+      background:linear-gradient(180deg,#f5f7ff,#a9b8db);
+      border:3px solid rgba(255,255,255,.7);
+    }
+    .body::after{
+      content:"";
+      position:absolute;
+      left:18px; top:16px;
+      width:26px; height:20px;
+      border-radius:6px;
+      background:linear-gradient(135deg,#ffcf5a,#ff6b90);
+    }
+    .arm,.leg{
+      position:absolute;
+      background:#dbe5ff;
+      border:3px solid rgba(255,255,255,.68);
+      border-radius:999px;
+    }
+    .arm.l{left:10px;top:88px;width:26px;height:68px;transform:rotate(24deg)}
+    .arm.r{right:10px;top:88px;width:26px;height:68px;transform:rotate(-28deg)}
+    .leg.l{left:33px;top:148px;width:23px;height:60px}
+    .leg.r{right:33px;top:148px;width:23px;height:60px}
+
+    .brokenRocket{
+      position:absolute;
+      right:16%;
+      bottom:8%;
+      width:190px;
+      height:350px;
+      filter:drop-shadow(0 20px 20px rgba(0,0,0,.42));
+      transform:rotate(5deg);
+    }
+
+    .rocketShell{
+      position:absolute;
+      left:38px; top:26px;
+      width:114px; height:250px;
+      border-radius:60px 60px 25px 25px;
+      background:linear-gradient(90deg,#dfe6ff,#ffffff 35%,#96a4d0);
+      border:4px solid rgba(255,255,255,.7);
+      overflow:hidden;
+    }
+    .rocketShell::before{
+      content:"";
+      position:absolute;
+      top:-4px; left:8px; right:8px;
+      height:72px;
+      border-radius:60px 60px 20px 20px;
+      background:linear-gradient(135deg,#ff6a88,#ffd86d);
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+    }
+    .rocketWindow{
+      position:absolute;
+      top:90px; left:36px;
+      width:42px; height:42px;
+      border-radius:50%;
+      background:radial-gradient(circle at 32% 25%,#fff,#71f6ff 48%,#2c4ea7 82%);
+      border:5px solid #596789;
+    }
+    .crack{
+      position:absolute;
+      width:42px; height:70px;
+      border-left:4px solid rgba(25,29,60,.55);
+      transform:rotate(22deg);
+      left:66px; top:148px;
+    }
+    .fin{
+      position:absolute;
+      top:218px;
+      width:48px; height:76px;
+      background:linear-gradient(135deg,#ff567e,#ab4dff);
+      border:3px solid rgba(255,255,255,.42);
+    }
+    .fin.l{left:4px;clip-path:polygon(100% 0,100% 100%,0 100%)}
+    .fin.r{right:4px;clip-path:polygon(0 0,100% 100%,0 100%)}
+    .rocketBase{
+      position:absolute;
+      bottom:34px; left:52px;
+      width:86px; height:38px;
+      border-radius:0 0 20px 20px;
+      background:#657092;
+      border:3px solid rgba(255,255,255,.5);
+    }
+    .missingTag{
+      position:absolute;
+      right:-50px; top:152px;
+      border-radius:14px;
+      background:rgba(255,101,128,.9);
+      color:#fff;
+      padding:8px 10px;
+      font-weight:1000;
+      transform:rotate(-9deg);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+    }
+
+    .hub{
+      position:absolute;
+      inset:0;
+      padding:72px 16px 16px;
+      display:grid;
+      grid-template-columns:minmax(340px,.86fr) minmax(440px,1.14fr);
+      gap:14px;
+    }
+
+    .rocketPanel,.missionPanel{
+      min-height:0;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .rocketPanel{
+      display:flex;
+      flex-direction:column;
+      padding:14px;
+    }
+
+    .panelHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .panelHead h2{
+      margin:0;
+      font-size:clamp(18px,2.1vw,24px);
+      letter-spacing:-.4px;
+    }
+    .panelHead p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .progressWrap{
+      margin:8px 0 12px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.13);
+      height:22px;
+      border-radius:999px;
+      overflow:hidden;
+      position:relative;
+    }
+    .progressBar{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--cyan),var(--green),var(--gold));
+      transition:width .45s ease;
+    }
+    .progressText{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      font-weight:1000;
+      text-shadow:0 1px 8px rgba(0,0,0,.6);
+    }
+
+    .rocketStage{
+      position:relative;
+      flex:1;
+      min-height:0;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 50% 85%, rgba(117,244,255,.12), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.12));
+      overflow:hidden;
+    }
+
+    .pad{
+      position:absolute;
+      left:50%;
+      bottom:7%;
+      width:280px;
+      height:38px;
+      border-radius:50%;
+      transform:translateX(-50%);
+      background:radial-gradient(ellipse at center,rgba(117,244,255,.45),rgba(117,244,255,.08) 55%,transparent 70%);
+    }
+
+    .assembledRocket{
+      position:absolute;
+      left:50%;
+      top:48%;
+      width:220px;
+      height:430px;
+      transform:translate(-50%,-50%);
+      filter:drop-shadow(0 22px 24px rgba(0,0,0,.45));
+    }
+
+    .rPart{
+      position:absolute;
+      opacity:.22;
+      filter:grayscale(1);
+      transition:opacity .35s ease, filter .35s ease, transform .35s ease;
+    }
+    .rPart.on{
+      opacity:1;
+      filter:none;
+      animation:partGlow 1.1s ease;
+    }
+    @keyframes partGlow{
+      0%{transform:scale(.92);filter:brightness(1.9)}
+      100%{transform:scale(1);filter:brightness(1)}
+    }
+
+    .nose{
+      left:70px; top:0;
+      width:80px; height:95px;
+      background:linear-gradient(135deg,#ff557d,#ffd96a);
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+      border-radius:20px;
+    }
+    .bodyMain{
+      left:50px; top:75px;
+      width:120px; height:220px;
+      border-radius:60px 60px 22px 22px;
+      background:linear-gradient(90deg,#dce5ff,#fff 40%,#93a1d0);
+      border:4px solid rgba(255,255,255,.66);
+    }
+    .windowPart{
+      left:84px; top:135px;
+      width:54px; height:54px;
+      border-radius:50%;
+      background:radial-gradient(circle at 34% 25%,#fff,#76f5ff 48%,#24469d 82%);
+      border:7px solid #546385;
+      box-shadow:0 0 20px rgba(117,244,255,.35);
+    }
+    .leftFin{
+      left:8px; top:242px;
+      width:65px; height:100px;
+      background:linear-gradient(135deg,#ff5d85,#8e56ff);
+      clip-path:polygon(100% 0,100% 100%,0 100%);
+    }
+    .rightFin{
+      right:8px; top:242px;
+      width:65px; height:100px;
+      background:linear-gradient(135deg,#8e56ff,#ff5d85);
+      clip-path:polygon(0 0,100% 100%,0 100%);
+    }
+    .engine{
+      left:67px; top:286px;
+      width:88px; height:46px;
+      border-radius:0 0 22px 22px;
+      background:linear-gradient(90deg,#505c82,#9ba7c7,#515d82);
+      border:4px solid rgba(255,255,255,.48);
+    }
+    .flame{
+      left:73px; top:326px;
+      width:76px; height:90px;
+      border-radius:50% 50% 48% 48%;
+      background:radial-gradient(circle at 50% 20%,#fff 0 8%,#ffe66b 20%,#ff9345 52%,rgba(255,70,105,.62) 75%,transparent 76%);
+      transform-origin:50% 0;
+      animation:flameFlicker .55s ease-in-out infinite alternate;
+    }
+    @keyframes flameFlicker{to{transform:scaleY(.78) scaleX(1.08)}}
+
+    .controlScreen{
+      left:76px; top:203px;
+      width:70px; height:38px;
+      border-radius:10px;
+      background:linear-gradient(135deg,#0a1332,#3af5ff);
+      border:4px solid #2d365a;
+    }
+    .chipLine{
+      left:60px; top:248px;
+      width:102px; height:16px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--cyan),var(--green),var(--gold));
+      border:2px solid rgba(255,255,255,.45);
+    }
+    .gem{
+      left:95px; top:92px;
+      width:30px; height:30px;
+      transform:rotate(45deg);
+      background:linear-gradient(135deg,#6dff9f,#75f4ff);
+      box-shadow:0 0 18px rgba(109,255,159,.65);
+    }
+    .gear{
+      left:28px; top:164px;
+      width:44px; height:44px;
+      border-radius:50%;
+      background:repeating-conic-gradient(from 0deg,#ffd96a 0 12deg,#915c20 12deg 22deg);
+      border:6px solid #ffeaa0;
+    }
+    .filterTube{
+      left:154px; top:163px;
+      width:40px; height:76px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#75f4ff,#496cff);
+      border:4px solid rgba(255,255,255,.55);
+    }
+
+    .partLabels{
+      position:absolute;
+      left:10px; right:10px; bottom:8px;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+    .miniPart{
+      border-radius:14px;
+      padding:6px 4px;
+      text-align:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:10px;
+      color:#aeb9d8;
+      font-weight:850;
+      min-height:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .miniPart.done{
+      color:#082014;
+      background:linear-gradient(135deg,var(--green),var(--gold));
+    }
+
+    .missionPanel{
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .sequenceNote{
+      border-radius:18px;
+      padding:10px 12px;
+      background:rgba(255,217,106,.10);
+      border:1px solid rgba(255,217,106,.22);
+      color:#fff5c8;
+      font-size:13px;
+      line-height:1.35;
+      margin-bottom:10px;
+    }
+
+    .missionList{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      overflow:auto;
+      padding:2px 4px 8px 0;
+      min-height:0;
+      scrollbar-width:thin;
+    }
+
+    .mission{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:19px;
+      padding:10px;
+      background:rgba(255,255,255,.075);
+      min-height:105px;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:9px;
+      position:relative;
+      overflow:hidden;
+    }
+    .mission::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,rgba(117,244,255,.13),transparent 56%);
+      opacity:0;
+      pointer-events:none;
+    }
+    .mission.active::before,.mission.done::before{opacity:1}
+    .mission.locked{opacity:.62}
+    .mission.done{
+      border-color:rgba(109,255,159,.38);
+      background:rgba(74,255,142,.105);
+    }
+    .mission.active{
+      border-color:rgba(117,244,255,.42);
+      box-shadow:0 0 0 1px rgba(117,244,255,.13), 0 12px 32px rgba(0,0,0,.22);
+    }
+
+    .badge{
+      width:36px; height:36px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      flex:0 0 auto;
+      position:relative;
+      z-index:1;
+    }
+    .mission.done .badge{background:linear-gradient(135deg,var(--green),var(--gold));color:#081525}
+    .mission.active .badge{background:linear-gradient(135deg,var(--cyan),#8d7dff);color:#061426}
+    .mission.locked .badge{color:#c4c9dc}
+
+    .mBody{position:relative;z-index:1;min-width:0}
+    .level{
+      color:var(--gold);
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      margin-bottom:2px;
+    }
+    .mTitle{
+      font-size:14px;
+      line-height:1.15;
+      font-weight:1000;
+      margin-bottom:4px;
+    }
+    .partName{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.2;
+      margin-bottom:8px;
+    }
+    .mActions{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .missionBtn{
+      border:0;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:1000;
+      color:#061426;
+      background:linear-gradient(135deg,var(--cyan),var(--gold));
+      cursor:pointer;
+    }
+    .missionBtn:disabled{
+      cursor:not-allowed;
+      color:#d7dbea;
+      background:rgba(255,255,255,.11);
+      border:1px solid rgba(255,255,255,.14);
+    }
+
+    .finalBox{
+      margin-top:10px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.08);
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .finalBox h3{
+      margin:0 0 2px;
+      font-size:17px;
+    }
+    .finalBox p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .finalBox.ready{
+      border-color:rgba(255,217,106,.44);
+      background:linear-gradient(135deg,rgba(255,217,106,.14),rgba(117,244,255,.10));
+    }
+
+    .modalBackdrop{
+      position:absolute;
+      inset:0;
+      z-index:50;
+      background:rgba(0,0,0,.62);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .modal{
+      width:min(640px,100%);
+      border-radius:24px;
+      background:linear-gradient(180deg,rgba(22,35,82,.98),rgba(8,14,34,.98));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 28px 90px rgba(0,0,0,.55);
+      padding:22px;
+    }
+    .modal h2{margin:0 0 8px;font-size:clamp(22px,3vw,32px)}
+    .modal p{margin:0 0 12px;color:#dbe7ff;line-height:1.45}
+    .teacherGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:12px;
+    }
+    .teacherGrid button{
+      border:0;
+      border-radius:14px;
+      padding:10px;
+      font-weight:1000;
+      color:#061426;
+      background:linear-gradient(135deg,var(--cyan),var(--gold));
+      cursor:pointer;
+    }
+    .teacherGrid button.red{
+      background:linear-gradient(135deg,#ff6580,#ffb35f);
+    }
+    input{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      padding:12px 14px;
+      font:inherit;
+      outline:none;
+    }
+
+    .launchScene{
+      position:absolute;
+      inset:0;
+      z-index:40;
+      background:
+        radial-gradient(circle at 50% 78%,rgba(117,244,255,.25),transparent 25%),
+        radial-gradient(circle at 50% 20%,rgba(255,217,106,.16),transparent 22%),
+        linear-gradient(180deg,#040719,#071036 58%,#140d30);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:22px;
+      overflow:hidden;
+    }
+    .launchRocket{
+      width:160px;height:310px;
+      position:relative;
+      filter:drop-shadow(0 24px 28px rgba(0,0,0,.45));
+      animation:rocketLift 3.8s ease-in forwards;
+    }
+    @keyframes rocketLift{
+      0%{transform:translateY(110px) scale(.95)}
+      48%{transform:translateY(40px) scale(1)}
+      100%{transform:translateY(-600px) scale(.8)}
+    }
+    .launchRocket .nose{left:48px;top:0;width:64px;height:78px}
+    .launchRocket .bodyMain{left:34px;top:58px;width:92px;height:170px}
+    .launchRocket .windowPart{left:58px;top:98px;width:46px;height:46px}
+    .launchRocket .leftFin{left:0;top:190px;width:52px;height:82px}
+    .launchRocket .rightFin{right:0;top:190px;width:52px;height:82px}
+    .launchRocket .engine{left:47px;top:226px;width:66px;height:38px}
+    .launchRocket .flame{left:49px;top:260px;width:62px;height:100px}
+    .countdown{
+      margin-top:18px;
+      font-size:clamp(26px,4vw,48px);
+      font-weight:1000;
+      color:var(--gold);
+      text-shadow:0 0 22px rgba(255,217,106,.45);
+    }
+    .launchMsg{
+      max-width:760px;
+      font-size:clamp(17px,2vw,22px);
+      color:#dce7ff;
+      margin-top:8px;
+      line-height:1.4;
+    }
+
+    .toast{
+      position:absolute;
+      z-index:80;
+      left:50%;
+      bottom:20px;
+      transform:translateX(-50%);
+      padding:12px 16px;
+      border-radius:999px;
+      background:rgba(4,12,30,.88);
+      border:1px solid rgba(117,244,255,.30);
+      box-shadow:0 14px 34px rgba(0,0,0,.35);
+      font-weight:900;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .22s ease, transform .22s ease;
+      text-align:center;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-6px);
+    }
+
+    @media (max-width:880px){
+      .cover{
+        grid-template-columns:1fr;
+        padding:70px 14px 14px;
+      }
+      .cover{
+        grid-template-rows:auto 1fr;
+      }
+      .heroScene{
+        display:flex;
+        min-height:0;
+        height:100%;
+      }
+      .coverPicture{
+        max-height:220px;
+        border-radius:20px;
+      }
+      .storyCard{
+        max-width:none;
+        padding:16px;
+      }
+      .storyCard h1{
+        font-size:clamp(24px,7vw,36px);
+      }
+      .storyCard p{
+        font-size:14px;
+        line-height:1.35;
+      }
+      .hub{
+        grid-template-columns:1fr;
+        grid-template-rows:43% 57%;
+        padding:68px 10px 10px;
+      }
+      .rocketPanel{padding:10px}
+      .missionPanel{padding:10px}
+      .assembledRocket{
+        width:160px;height:310px;
+        transform:translate(-50%,-50%) scale(.75);
+      }
+      .partLabels{
+        grid-template-columns:repeat(5,1fr);
+        gap:4px;
+      }
+      .miniPart{font-size:9px;padding:4px 2px;min-height:26px}
+      .missionList{
+        grid-template-columns:1fr;
+      }
+      .mission{min-height:90px}
+      .topbar{height:60px;padding:10px 12px}
+      .pill{padding:8px 9px;font-size:12px}
+      .ghost{padding:8px 10px;font-size:12px}
+    }
+
+    @media (max-height:670px) and (min-width:881px){
+      .screen{height:100%}
+      .hub{padding-top:62px}
+      .topbar{height:58px}
+      .mission{min-height:91px;padding:8px}
+      .mTitle{font-size:13px}
+      .partName{font-size:11px;margin-bottom:6px}
+      .sequenceNote{display:none}
+      .finalBox{padding:9px}
+      .assembledRocket{transform:translate(-50%,-50%) scale(.82)}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <main class="screen" id="screen">
+      <div class="topbar">
+        <div class="brand">
+          <div class="title">Uncle Joe and the Lost Fraction Rocket Parts</div>
+          <div class="sub">Missions are arranged by learning sequence, but pupils may choose any topic</div>
+        </div>
+        <div class="row">
+          <div class="pill" id="topProgress">0 / 10 parts</div>
+          <button class="btn ghost" id="teacherBtn" type="button">Teacher</button>
+        </div>
+      </div>
+
+      <section class="cover" id="cover">
+        <div class="storyCard">
+          <div class="chapter">🚀 P2 → P3 Fractions Journey</div>
+          <h1>Help Uncle Joe rebuild the Fraction Rocket.</h1>
+          <p>When Uncle Joe was young, an alien ship took him far away from Earth.</p>
+          <p>He is now stranded on a strange fraction planet. His rocket is broken into ten machine parts.</p>
+          <p>The missions are arranged in the same learning sequence, but pupils may choose any topic first. Complete all missions to rebuild the rocket and fly home.</p>
+          <div class="row" style="margin-top:18px">
+            <button class="btn primary" id="beginBtn" type="button">Begin Rocket Repair</button>
+            <button class="btn ghost" id="howBtn" type="button">How to play</button>
+          </div>
+        </div>
+
+        <div class="heroScene coverArt" aria-label="Uncle Joe cover art">
+          <div class="coverGlow"></div>
+          <img class="coverPicture" src="https://raw.githubusercontent.com/limkimsze-maker/P2-P3-Uncle-Joe-and-the-Lost-Fraction-Rocket-Parts/f9a39ff7f7da03883f2f226261dd442e1fb525c8/bbaf7174-97f8-4bce-939d-764d26e90770.png" alt="Uncle Joe and the Lost Fraction Rocket Parts cover picture" />
+        </div>
+      </section>
+
+      <section class="hub hidden" id="hub">
+        <div class="rocketPanel">
+          <div class="panelHead">
+            <div>
+              <h2>Rocket Repair Bay</h2>
+              <p id="repairLine">Choose any mission to collect a rocket part.</p>
+            </div>
+            <button class="btn small" id="backStoryBtn" type="button">Story</button>
+          </div>
+
+          <div class="progressWrap">
+            <div class="progressBar" id="progressBar"></div>
+            <div class="progressText" id="progressText">0 / 10 rocket parts collected</div>
+          </div>
+
+          <div class="rocketStage">
+            <div class="pad"></div>
+            <div class="assembledRocket" aria-label="Rocket assembled from collected parts">
+              <div class="rPart nose" data-part="joe_part_p2_writing"></div>
+              <div class="rPart bodyMain" data-part="joe_part_p2_unit_compare"></div>
+              <div class="rPart windowPart" data-part="joe_part_p2_like_compare"></div>
+              <div class="rPart leftFin" data-part="joe_part_p2_adding_like"></div>
+              <div class="rPart rightFin" data-part="joe_part_p2_subtraction_like"></div>
+              <div class="rPart gear" data-part="joe_part_p3_equivalent"></div>
+              <div class="rPart filterTube" data-part="joe_part_p3_simplifying"></div>
+              <div class="rPart chipLine" data-part="joe_part_p3_compare_order"></div>
+              <div class="rPart gem" data-part="joe_part_p3_addition"></div>
+              <div class="rPart controlScreen" data-part="joe_part_p3_subtraction"></div>
+              <div class="rPart engine" data-engine></div>
+              <div class="rPart flame" data-flame></div>
+            </div>
+            <div class="partLabels" id="partLabels"></div>
+          </div>
+        </div>
+
+        <div class="missionPanel">
+          <div class="panelHead">
+            <div>
+              <h2>Mission Sequence</h2>
+              <p>P2 foundation first, then P3 Fractions.</p>
+            </div>
+          </div>
+          <div class="sequenceNote">
+            Missions are arranged in learning sequence, but pupils may attempt any topic first.
+          </div>
+          <div class="missionList" id="missionList"></div>
+
+          <div class="finalBox" id="finalBox">
+            <div>
+              <h3 id="finalTitle">Final Launch Locked</h3>
+              <p id="finalMsg">Collect all ten parts before Uncle Joe can rebuild his rocket.</p>
+            </div>
+            <button class="btn primary gold" id="launchBtn" type="button" disabled>Launch</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="launchScene hidden" id="launchScene">
+        <div class="launchRocket">
+          <div class="rPart nose on"></div>
+          <div class="rPart bodyMain on"></div>
+          <div class="rPart windowPart on"></div>
+          <div class="rPart leftFin on"></div>
+          <div class="rPart rightFin on"></div>
+          <div class="rPart engine on"></div>
+          <div class="rPart flame on"></div>
+        </div>
+        <div class="countdown" id="countdown">5</div>
+        <div class="launchMsg">After many years on the fraction planet, Uncle Joe finally rebuilds his rocket and returns to Planet Earth.</div>
+      </section>
+
+      <div class="modalBackdrop hidden" id="modalBackdrop">
+        <div class="modal" id="modal">
+          <h2 id="modalTitle">How to play</h2>
+          <p id="modalText">Choose any mission. When a game is completed, its rocket part will appear in the repair bay. When all ten parts are collected, the final launch unlocks.</p>
+          <div id="modalExtra"></div>
+          <div class="row" style="margin-top:16px">
+            <button class="btn primary" id="modalClose" type="button">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">Saved</div>
+    </main>
+  </div>
+
+  <script>
+    /*
+      ================================================================
+      HOW TO CONNECT EACH EXISTING GAME TO THIS ROCKET HUB
+      ================================================================
+
+      Add ONE matching line when the pupil completes the test/game:
+
+      localStorage.setItem("joe_part_p2_writing", "collected");
+      localStorage.setItem("joe_part_p2_unit_compare", "collected");
+      localStorage.setItem("joe_part_p2_like_compare", "collected");
+      localStorage.setItem("joe_part_p2_adding_like", "collected");
+      localStorage.setItem("joe_part_p2_subtraction_like", "collected");
+      localStorage.setItem("joe_part_p3_equivalent", "collected");
+      localStorage.setItem("joe_part_p3_simplifying", "collected");
+      localStorage.setItem("joe_part_p3_compare_order", "collected");
+      localStorage.setItem("joe_part_p3_addition", "collected");
+      localStorage.setItem("joe_part_p3_subtraction", "collected");
+
+      Then send pupils back to this hub:
+      location.href = "YOUR_ROCKET_HUB_URL_HERE";
+    */
+
+    const MISSIONS = [
+      {
+        key:"joe_part_p2_writing",
+        level:"P2 Foundation",
+        title:"Writing Fractions",
+        part:"Nose Cone",
+        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Writing-Fractions/"
+      },
+      {
+        key:"joe_part_p2_unit_compare",
+        level:"P2 Foundation",
+        title:"Comparing of Unit Fractions",
+        part:"Rocket Body",
+        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Comparing-of-Unit-Fractions/"
+      },
+      {
+        key:"joe_part_p2_like_compare",
+        level:"P2 Foundation",
+        title:"Comparing of Like Fractions",
+        part:"Navigation Window",
+        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Comparing-of-Like-Fractions/"
+      },
+      {
+        key:"joe_part_p2_adding_like",
+        level:"P2 Foundation",
+        title:"Adding of Like Fractions",
+        part:"Left Stabiliser Wing",
+        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Adding-of-Like-Fractions/"
+      },
+      {
+        key:"joe_part_p2_subtraction_like",
+        level:"P2 Foundation",
+        title:"Subtraction of Like Fractions",
+        part:"Right Stabiliser Wing",
+        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Subtraction-of-Like-Fractions/"
+      },
+      {
+        key:"joe_part_p3_equivalent",
+        level:"P3 Fractions",
+        title:"Equivalent Fractions",
+        part:"Engine Gear",
+        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Equivalent-Fractions/"
+      },
+      {
+        key:"joe_part_p3_simplifying",
+        level:"P3 Fractions",
+        title:"Simplifying Fractions",
+        part:"Fuel Purifier",
+        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Simplifying-Fractions/"
+      },
+      {
+        key:"joe_part_p3_compare_order",
+        level:"P3 Fractions",
+        title:"Comparing and Ordering Fractions",
+        part:"Navigation Chip",
+        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Comparing-of-Unlike-Fraction/"
+      },
+      {
+        key:"joe_part_p3_addition",
+        level:"P3 Fractions",
+        title:"Addition of Fractions",
+        part:"Energy Crystal",
+        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Addition-of-Unlike-Fractions/"
+      },
+      {
+        key:"joe_part_p3_subtraction",
+        level:"P3 Fractions",
+        title:"Subtraction of Fractions",
+        part:"Control Screen",
+        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Subtraction-of-Unlike-Fractions/"
+      }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+    const cover = $("cover");
+    const hub = $("hub");
+    const missionList = $("missionList");
+    const topProgress = $("topProgress");
+    const progressBar = $("progressBar");
+    const progressText = $("progressText");
+    const repairLine = $("repairLine");
+    const partLabels = $("partLabels");
+    const finalBox = $("finalBox");
+    const finalTitle = $("finalTitle");
+    const finalMsg = $("finalMsg");
+    const launchBtn = $("launchBtn");
+    const modalBackdrop = $("modalBackdrop");
+    const modalTitle = $("modalTitle");
+    const modalText = $("modalText");
+    const modalExtra = $("modalExtra");
+    const toast = $("toast");
+
+    let teacherUnlocked = false;
+
+    function isCollected(key){
+      return localStorage.getItem(key) === "collected";
+    }
+
+    function firstIncompleteIndex(){
+      return MISSIONS.findIndex(m => !isCollected(m.key));
+    }
+
+    function countCollected(){
+      return MISSIONS.filter(m => isCollected(m.key)).length;
+    }
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(showToast.t);
+      showToast.t = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function openModal(title, text, extraHTML = ""){
+      modalTitle.textContent = title;
+      modalText.textContent = text;
+      modalExtra.innerHTML = extraHTML;
+      modalBackdrop.classList.remove("hidden");
+    }
+
+    function closeModal(){
+      modalBackdrop.classList.add("hidden");
+      modalExtra.innerHTML = "";
+    }
+
+    function buildMissions(){
+      missionList.innerHTML = "";
+
+      MISSIONS.forEach((m, i) => {
+        const done = isCollected(m.key);
+
+        const card = document.createElement("article");
+        card.className = "mission " + (done ? "done" : "active");
+        card.innerHTML = `
+          <div class="badge">${done ? "✓" : i + 1}</div>
+          <div class="mBody">
+            <div class="level">${m.level}</div>
+            <div class="mTitle">${m.title}</div>
+            <div class="partName">Rocket part: <b>${m.part}</b></div>
+            <div class="mActions">
+              <button class="missionBtn" data-open="${i}">${done ? "Replay Mission" : "Start Mission"}</button>
+              ${teacherUnlocked ? `<button class="missionBtn" data-mark="${i}">${done ? "Undo" : "Mark Done"}</button>` : ""}
+            </div>
+          </div>
+        `;
+        missionList.appendChild(card);
+      });
+    }
+
+    function buildPartLabels(){
+      partLabels.innerHTML = "";
+      MISSIONS.forEach((m, i) => {
+        const label = document.createElement("div");
+        label.className = "miniPart " + (isCollected(m.key) ? "done" : "");
+        label.textContent = (i + 1) + ". " + m.part;
+        partLabels.appendChild(label);
+      });
+    }
+
+    function updateRocketParts(){
+      document.querySelectorAll(".rPart[data-part]").forEach(el => {
+        const key = el.getAttribute("data-part");
+        el.classList.toggle("on", isCollected(key));
+      });
+
+      const all = countCollected() === MISSIONS.length;
+      const engine = document.querySelector("[data-engine]");
+      const flame = document.querySelector("[data-flame]");
+      if(engine) engine.classList.toggle("on", countCollected() >= 5);
+      if(flame) flame.classList.toggle("on", all);
+    }
+
+    function refresh(){
+      const collected = countCollected();
+      const total = MISSIONS.length;
+      const percent = Math.round((collected / total) * 100);
+
+      topProgress.textContent = `${collected} / ${total} parts`;
+      progressBar.style.width = `${percent}%`;
+      progressText.textContent = `${collected} / ${total} rocket parts collected`;
+
+      const first = firstIncompleteIndex();
+      if(first === -1){
+        repairLine.textContent = "All parts collected. Uncle Joe is ready to return to Earth!";
+        finalBox.classList.add("ready");
+        finalTitle.textContent = "Final Launch Unlocked";
+        finalMsg.textContent = "The rocket is complete. Start the countdown!";
+        launchBtn.disabled = false;
+      }else{
+        repairLine.textContent = "Choose any mission. Complete all ten to unlock the final launch.";
+        finalBox.classList.remove("ready");
+        finalTitle.textContent = "Final Launch Locked";
+        finalMsg.textContent = `Collect ${total - collected} more part${total - collected === 1 ? "" : "s"} before Uncle Joe can launch.`;
+        launchBtn.disabled = true;
+      }
+
+      buildMissions();
+      buildPartLabels();
+      updateRocketParts();
+    }
+
+    function showHub(){
+      cover.classList.add("hidden");
+      hub.classList.remove("hidden");
+      refresh();
+    }
+
+    function showCover(){
+      hub.classList.add("hidden");
+      cover.classList.remove("hidden");
+    }
+
+    function openMission(i){
+      const m = MISSIONS[i];
+
+      // GitHub Pages link is used here. Change the URL in MISSIONS if your page uses another link.
+      window.open(m.url, "_blank", "noopener,noreferrer");
+      showToast("Mission opened in a new tab.");
+    }
+
+    function toggleMark(i){
+      const m = MISSIONS[i];
+      if(isCollected(m.key)){
+        localStorage.removeItem(m.key);
+        showToast(`${m.part} removed.`);
+      }else{
+        localStorage.setItem(m.key, "collected");
+        showToast(`${m.part} collected!`);
+      }
+      refresh();
+    }
+
+    function unlockTeacher(){
+      const html = `
+        <input id="teacherPass" type="password" inputmode="numeric" placeholder="Enter teacher password" />
+        <div class="teacherGrid">
+          <button id="unlockNow" type="button">Unlock Teacher Tools</button>
+          <button id="closeTeacher" type="button">Cancel</button>
+        </div>
+      `;
+      openModal("Teacher Tools", "Use this only for testing the hub or checking the final launch.", html);
+
+      setTimeout(() => {
+        const input = document.getElementById("teacherPass");
+        const unlock = document.getElementById("unlockNow");
+        const cancel = document.getElementById("closeTeacher");
+        input.focus();
+
+        function tryUnlock(){
+          if(input.value === "67"){
+            teacherUnlocked = true;
+            closeModal();
+            showToast("Teacher tools unlocked.");
+            refresh();
+          }else{
+            showToast("Wrong password.");
+          }
+        }
+
+        unlock.addEventListener("click", tryUnlock);
+        input.addEventListener("keydown", e => { if(e.key === "Enter") tryUnlock(); });
+        cancel.addEventListener("click", closeModal);
+      }, 50);
+    }
+
+    function teacherPanel(){
+      const html = `
+        <div class="teacherGrid">
+          <button id="markNext" type="button">Mark Next Part</button>
+          <button id="markAll" type="button">Mark All Parts</button>
+          <button id="clearAll" class="red" type="button">Reset All Parts</button>
+          <button id="lockTools" type="button">Lock Tools</button>
+        </div>
+      `;
+      openModal("Teacher Tools", "Testing controls for the Rocket Base Hub.", html);
+
+      setTimeout(() => {
+        document.getElementById("markNext").addEventListener("click", () => {
+          const idx = firstIncompleteIndex();
+          if(idx !== -1){
+            localStorage.setItem(MISSIONS[idx].key, "collected");
+            showToast(`${MISSIONS[idx].part} collected!`);
+          }
+          closeModal();
+          refresh();
+        });
+
+        document.getElementById("markAll").addEventListener("click", () => {
+          MISSIONS.forEach(m => localStorage.setItem(m.key, "collected"));
+          closeModal();
+          showToast("All parts collected.");
+          refresh();
+        });
+
+        document.getElementById("clearAll").addEventListener("click", () => {
+          if(confirm("Reset all rocket part progress?")){
+            MISSIONS.forEach(m => localStorage.removeItem(m.key));
+            closeModal();
+            showToast("Progress reset.");
+            refresh();
+          }
+        });
+
+        document.getElementById("lockTools").addEventListener("click", () => {
+          teacherUnlocked = false;
+          closeModal();
+          showToast("Teacher tools locked.");
+          refresh();
+        });
+      }, 50);
+    }
+
+    function launch(){
+      if(countCollected() !== MISSIONS.length){
+        showToast("Collect all parts first.");
+        return;
+      }
+
+      hub.classList.add("hidden");
+      cover.classList.add("hidden");
+      $("launchScene").classList.remove("hidden");
+
+      let n = 5;
+      const countdown = $("countdown");
+      countdown.textContent = n;
+      const timer = setInterval(() => {
+        n--;
+        if(n > 0){
+          countdown.textContent = n;
+        }else if(n === 0){
+          countdown.textContent = "BLAST OFF!";
+        }else{
+          clearInterval(timer);
+          countdown.textContent = "HOME TO EARTH!";
+        }
+      }, 850);
+    }
+
+    document.addEventListener("click", (e) => {
+      const openIdx = e.target.getAttribute("data-open");
+      const markIdx = e.target.getAttribute("data-mark");
+      if(openIdx !== null) openMission(Number(openIdx));
+      if(markIdx !== null) toggleMark(Number(markIdx));
+    });
+
+    $("beginBtn").addEventListener("click", showHub);
+    $("backStoryBtn").addEventListener("click", showCover);
+    $("howBtn").addEventListener("click", () => {
+      openModal(
+        "How to play",
+        "Choose any fraction game. Each completed game gives Uncle Joe one rocket machine part. The final launch unlocks only after all ten parts are collected."
+      );
+    });
+    $("modalClose").addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
+    $("teacherBtn").addEventListener("click", () => teacherUnlocked ? teacherPanel() : unlockTeacher());
+    launchBtn.addEventListener("click", launch);
+
+    // Press R to refresh after returning from another tab.
+    window.addEventListener("focus", refresh);
+    document.addEventListener("keydown", e => {
+      if(e.key.toLowerCase() === "r") refresh();
+      if(e.key === "Escape") closeModal();
+    });
+
+    refresh();
+  </script>
+</body>
+</html>
