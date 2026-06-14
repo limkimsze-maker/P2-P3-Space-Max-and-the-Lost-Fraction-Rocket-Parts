@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Uncle Joe and the Lost Fraction Rocket Parts</title>
+  <title>Space Max and the Lost Fraction Rocket Parts</title>
   <style>
     :root{
       --bg:#040719;
@@ -972,6 +972,219 @@
       .finalBox{padding:9px}
       .assembledRocket{transform:translate(-50%,-50%) scale(.82)}
     }
+
+    /* Extra responsive layer for phones, tablets, foldables, and short landscape screens */
+    @supports (height:100svh){
+      .app{height:100svh;}
+      .screen{height:min(780px, calc(100svh - 20px));}
+    }
+
+    .coverFallback::after{
+      content:"🚀";
+      width:min(420px, 72vw);
+      aspect-ratio:1/1;
+      border-radius:34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:clamp(92px,22vw,180px);
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255,255,255,.38), transparent 18%),
+        linear-gradient(135deg, rgba(117,244,255,.18), rgba(255,217,106,.14), rgba(255,121,190,.18));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 24px 70px rgba(0,0,0,.40), inset 0 0 50px rgba(117,244,255,.12);
+    }
+
+    @media (max-width:560px){
+      html, body{overflow:auto;}
+      .app{
+        min-height:100svh;
+        height:auto;
+        padding:max(6px,var(--safeTop)) 6px max(6px,var(--safeBottom));
+        align-items:flex-start;
+      }
+      .screen{
+        height:calc(100svh - max(12px, var(--safeTop)) - max(12px, var(--safeBottom)));
+        min-height:520px;
+        border-radius:18px;
+      }
+      .topbar{
+        height:54px;
+        padding:8px 9px;
+        gap:6px;
+      }
+      .brand .title{font-size:15px;letter-spacing:-.2px;}
+      .brand .sub{display:none;}
+      .row{gap:6px;}
+      .pill{font-size:11px;padding:7px 8px;}
+      .ghost{font-size:11px;padding:7px 8px;}
+      .cover{
+        padding:58px 10px 10px;
+        gap:10px;
+        grid-template-columns:1fr;
+        grid-template-rows:auto 1fr;
+        overflow:auto;
+      }
+      .chapter{padding:6px 9px;font-size:10.5px;margin-bottom:8px;}
+      .storyCard{
+        padding:13px;
+        border-radius:18px;
+      }
+      .storyCard h1{
+        font-size:22px;
+        line-height:1.03;
+        margin-bottom:8px;
+        letter-spacing:-.5px;
+      }
+      .storyCard p{
+        font-size:12.5px;
+        line-height:1.3;
+        margin-bottom:7px;
+      }
+      .storyCard .row{
+        flex-direction:column;
+        align-items:stretch;
+        margin-top:10px!important;
+      }
+      .primary{
+        width:100%;
+        min-width:0;
+        padding:11px 13px;
+        font-size:14px;
+      }
+      .coverPicture{max-height:31vh;width:min(350px,100%);border-radius:18px;}
+      .hub{
+        padding:58px 8px 8px;
+        grid-template-columns:1fr;
+        grid-template-rows:34% minmax(0,66%);
+        gap:8px;
+      }
+      .rocketPanel,.missionPanel{
+        padding:8px;
+        border-radius:18px;
+      }
+      .panelHead{margin-bottom:5px;}
+      .panelHead h2{font-size:16px;}
+      .panelHead p{font-size:11px;}
+      .small{font-size:10.5px;padding:6px 8px;}
+      .progressWrap{height:17px;margin:4px 0 7px;}
+      .progressText{font-size:10.5px;}
+      .rocketStage{border-radius:16px;}
+      .assembledRocket{
+        width:160px;
+        height:300px;
+        transform:translate(-50%,-50%) scale(.52);
+      }
+      .partLabels{display:none;}
+      .sequenceNote{display:none;}
+      .missionList{
+        grid-template-columns:1fr;
+        gap:7px;
+        padding:0 2px 5px 0;
+      }
+      .mission{
+        min-height:76px;
+        padding:8px;
+        border-radius:15px;
+        grid-template-columns:30px 1fr;
+        gap:7px;
+      }
+      .badge{
+        width:30px;
+        height:30px;
+        font-size:12px;
+      }
+      .level{font-size:9.5px;margin-bottom:1px;}
+      .mTitle{font-size:12.5px;line-height:1.1;}
+      .partName{font-size:10.5px;margin-bottom:5px;}
+      .missionBtn{padding:6px 8px;font-size:10.5px;}
+      .finalBox{
+        padding:8px;
+        border-radius:15px;
+        align-items:flex-start;
+      }
+      .finalBox h3{font-size:13px;}
+      .finalBox p{font-size:11px;line-height:1.25;}
+      #launchBtn{
+        width:auto;
+        min-width:88px;
+        padding:9px 12px;
+        font-size:12px;
+      }
+      .modal{
+        padding:16px;
+        max-height:88svh;
+        overflow:auto;
+        border-radius:18px;
+      }
+      .modal h2{font-size:20px;}
+      .modal p{font-size:13px;}
+      .teacherGrid{grid-template-columns:1fr;}
+      .toast{
+        width:calc(100% - 24px);
+        white-space:normal;
+        border-radius:16px;
+      }
+    }
+
+    @media (max-width:380px){
+      .brand .title{font-size:13px;}
+      .pill{display:none;}
+      .coverPicture{max-height:27vh;}
+      .storyCard p:nth-of-type(2){display:none;}
+      .hub{grid-template-rows:30% minmax(0,70%);}
+      .assembledRocket{transform:translate(-50%,-50%) scale(.45);}
+      .mission{min-height:70px;}
+      .partName{display:none;}
+    }
+
+    @media (max-height:540px){
+      .screen{height:calc(100svh - 10px);min-height:0;}
+      .topbar{height:48px;padding:6px 8px;}
+      .brand .sub{display:none;}
+      .cover{
+        padding-top:50px;
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:1fr;
+        gap:8px;
+        overflow:auto;
+      }
+      .storyCard{padding:12px;border-radius:18px;}
+      .storyCard h1{font-size:23px;margin-bottom:7px;}
+      .storyCard p{font-size:11.8px;line-height:1.25;margin-bottom:6px;}
+      .chapter{font-size:10px;padding:5px 8px;margin-bottom:7px;}
+      .coverPicture{max-height:62vh;}
+      .storyCard .row{margin-top:8px!important;}
+      .primary{min-width:0;padding:9px 12px;font-size:13px;}
+      .hub{
+        padding-top:50px;
+        grid-template-columns:38% minmax(0,62%);
+        grid-template-rows:1fr;
+        gap:8px;
+      }
+      .rocketPanel,.missionPanel{padding:8px;}
+      .panelHead p,.sequenceNote{display:none;}
+      .panelHead h2{font-size:15px;}
+      .progressWrap{height:15px;margin:3px 0 6px;}
+      .assembledRocket{transform:translate(-50%,-50%) scale(.50);}
+      .partLabels{display:none;}
+      .missionList{grid-template-columns:1fr;gap:6px;}
+      .mission{min-height:68px;padding:7px;border-radius:14px;}
+      .badge{width:28px;height:28px;font-size:11px;}
+      .level{font-size:9px;}
+      .mTitle{font-size:12px;}
+      .partName{font-size:10px;margin-bottom:4px;}
+      .missionBtn{padding:5px 8px;font-size:10px;}
+      .finalBox{padding:7px;}
+      .finalBox h3{font-size:12.5px;}
+      .finalBox p{display:none;}
+      .modal{max-height:90svh;overflow:auto;}
+    }
+
+    @media (pointer:coarse){
+      .btn,.missionBtn{min-height:38px;}
+    }
+
   </style>
 </head>
 <body>
@@ -979,7 +1192,7 @@
     <main class="screen" id="screen">
       <div class="topbar">
         <div class="brand">
-          <div class="title">Uncle Joe and the Lost Fraction Rocket Parts</div>
+          <div class="title">Space Max and the Lost Fraction Rocket Parts</div>
           <div class="sub">Missions are arranged by learning sequence, but pupils may choose any topic</div>
         </div>
         <div class="row">
@@ -991,8 +1204,8 @@
       <section class="cover" id="cover">
         <div class="storyCard">
           <div class="chapter">🚀 P2 → P3 Fractions Journey</div>
-          <h1>Help Uncle Joe rebuild the Fraction Rocket.</h1>
-          <p>When Uncle Joe was young, an alien ship took him far away from Earth.</p>
+          <h1>Help Space Max rebuild the Fraction Rocket.</h1>
+          <p>When Space Max was captured by an alien, he was taken far away from Earth.</p>
           <p>He is now stranded on a strange fraction planet. His rocket is broken into ten machine parts.</p>
           <p>The missions are arranged in the same learning sequence, but pupils may choose any topic first. Complete all missions to rebuild the rocket and fly home.</p>
           <div class="row" style="margin-top:18px">
@@ -1001,9 +1214,9 @@
           </div>
         </div>
 
-        <div class="heroScene coverArt" aria-label="Uncle Joe cover art">
+        <div class="heroScene coverArt" aria-label="Space Max cover art">
           <div class="coverGlow"></div>
-          <img class="coverPicture" src="https://raw.githubusercontent.com/limkimsze-maker/P2-P3-Uncle-Joe-and-the-Lost-Fraction-Rocket-Parts/f9a39ff7f7da03883f2f226261dd442e1fb525c8/bbaf7174-97f8-4bce-939d-764d26e90770.png" alt="Uncle Joe and the Lost Fraction Rocket Parts cover picture" />
+          <img class="coverPicture" src="https://raw.githubusercontent.com/limkimsze-maker/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/main/bbaf7174-97f8-4bce-939d-764d26e90770.png" alt="Space Max and the Lost Fraction Rocket Parts cover picture" onerror="this.style.display='none';this.parentElement.classList.add('coverFallback');" />
         </div>
       </section>
 
@@ -1025,16 +1238,16 @@
           <div class="rocketStage">
             <div class="pad"></div>
             <div class="assembledRocket" aria-label="Rocket assembled from collected parts">
-              <div class="rPart nose" data-part="joe_part_p2_writing"></div>
-              <div class="rPart bodyMain" data-part="joe_part_p2_unit_compare"></div>
-              <div class="rPart windowPart" data-part="joe_part_p2_like_compare"></div>
-              <div class="rPart leftFin" data-part="joe_part_p2_adding_like"></div>
-              <div class="rPart rightFin" data-part="joe_part_p2_subtraction_like"></div>
-              <div class="rPart gear" data-part="joe_part_p3_equivalent"></div>
-              <div class="rPart filterTube" data-part="joe_part_p3_simplifying"></div>
-              <div class="rPart chipLine" data-part="joe_part_p3_compare_order"></div>
-              <div class="rPart gem" data-part="joe_part_p3_addition"></div>
-              <div class="rPart controlScreen" data-part="joe_part_p3_subtraction"></div>
+              <div class="rPart nose" data-part="space_max_part_p2_writing"></div>
+              <div class="rPart bodyMain" data-part="space_max_part_p2_unit_compare"></div>
+              <div class="rPart windowPart" data-part="space_max_part_p2_like_compare"></div>
+              <div class="rPart leftFin" data-part="space_max_part_p2_adding_like"></div>
+              <div class="rPart rightFin" data-part="space_max_part_p2_subtraction_like"></div>
+              <div class="rPart gear" data-part="space_max_part_p3_equivalent"></div>
+              <div class="rPart filterTube" data-part="space_max_part_p3_simplifying"></div>
+              <div class="rPart chipLine" data-part="space_max_part_p3_compare_order"></div>
+              <div class="rPart gem" data-part="space_max_part_p3_addition"></div>
+              <div class="rPart controlScreen" data-part="space_max_part_p3_subtraction"></div>
               <div class="rPart engine" data-engine></div>
               <div class="rPart flame" data-flame></div>
             </div>
@@ -1057,7 +1270,7 @@
           <div class="finalBox" id="finalBox">
             <div>
               <h3 id="finalTitle">Final Launch Locked</h3>
-              <p id="finalMsg">Collect all ten parts before Uncle Joe can rebuild his rocket.</p>
+              <p id="finalMsg">Collect all ten parts before Space Max can rebuild his rocket.</p>
             </div>
             <button class="btn primary gold" id="launchBtn" type="button" disabled>Launch</button>
           </div>
@@ -1075,7 +1288,7 @@
           <div class="rPart flame on"></div>
         </div>
         <div class="countdown" id="countdown">5</div>
-        <div class="launchMsg">After many years on the fraction planet, Uncle Joe finally rebuilds his rocket and returns to Planet Earth.</div>
+        <div class="launchMsg">After many years on the fraction planet, Space Max finally rebuilds his rocket and returns to Planet Earth.</div>
       </section>
 
       <div class="modalBackdrop hidden" id="modalBackdrop">
@@ -1096,98 +1309,111 @@
   <script>
     /*
       ================================================================
-      HOW TO CONNECT EACH EXISTING GAME TO THIS ROCKET HUB
+      HOW TO CONNECT EACH SPACE MAX GAME TO THIS ROCKET HUB
       ================================================================
 
       Add ONE matching line when the pupil completes the test/game:
 
-      localStorage.setItem("joe_part_p2_writing", "collected");
-      localStorage.setItem("joe_part_p2_unit_compare", "collected");
-      localStorage.setItem("joe_part_p2_like_compare", "collected");
-      localStorage.setItem("joe_part_p2_adding_like", "collected");
-      localStorage.setItem("joe_part_p2_subtraction_like", "collected");
-      localStorage.setItem("joe_part_p3_equivalent", "collected");
-      localStorage.setItem("joe_part_p3_simplifying", "collected");
-      localStorage.setItem("joe_part_p3_compare_order", "collected");
-      localStorage.setItem("joe_part_p3_addition", "collected");
-      localStorage.setItem("joe_part_p3_subtraction", "collected");
+      localStorage.setItem("space_max_part_p2_writing", "collected");
+      localStorage.setItem("space_max_part_p2_unit_compare", "collected");
+      localStorage.setItem("space_max_part_p2_like_compare", "collected");
+      localStorage.setItem("space_max_part_p2_adding_like", "collected");
+      localStorage.setItem("space_max_part_p2_subtraction_like", "collected");
+      localStorage.setItem("space_max_part_p3_equivalent", "collected");
+      localStorage.setItem("space_max_part_p3_simplifying", "collected");
+      localStorage.setItem("space_max_part_p3_compare_order", "collected");
+      localStorage.setItem("space_max_part_p3_addition", "collected");
+      localStorage.setItem("space_max_part_p3_subtraction", "collected");
 
       Then send pupils back to this hub:
-      location.href = "YOUR_ROCKET_HUB_URL_HERE";
+      location.href = "https://limkimsze-maker.github.io/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/";
+
+      The hub also migrates older progress keys automatically, so
+      previously completed work will still appear as collected.
     */
 
     const MISSIONS = [
       {
-        key:"joe_part_p2_writing",
-        level:"P2 Foundation",
-        title:"Writing Fractions",
-        part:"Nose Cone",
-        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Writing-Fractions/"
+            "key": "space_max_part_p2_writing",
+            "legacyKey": "joe_part_p2_writing",
+            "level": "P2 Foundation",
+            "title": "Writing Fractions",
+            "part": "Nose Cone",
+            "url": "https://limkimsze-maker.github.io/P2-Space-Max-and-Writing-Fractions/"
       },
       {
-        key:"joe_part_p2_unit_compare",
-        level:"P2 Foundation",
-        title:"Comparing of Unit Fractions",
-        part:"Rocket Body",
-        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Comparing-of-Unit-Fractions/"
+            "key": "space_max_part_p2_unit_compare",
+            "legacyKey": "joe_part_p2_unit_compare",
+            "level": "P2 Foundation",
+            "title": "Comparing of Unit Fractions",
+            "part": "Rocket Body",
+            "url": "https://limkimsze-maker.github.io/P2-Space-Max-and-Comparing-of-Unit-Fractions/"
       },
       {
-        key:"joe_part_p2_like_compare",
-        level:"P2 Foundation",
-        title:"Comparing of Like Fractions",
-        part:"Navigation Window",
-        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Comparing-of-Like-Fractions/"
+            "key": "space_max_part_p2_like_compare",
+            "legacyKey": "joe_part_p2_like_compare",
+            "level": "P2 Foundation",
+            "title": "Comparing of Like Fractions",
+            "part": "Navigation Window",
+            "url": "https://limkimsze-maker.github.io/P2-Space-Max-and-Comparing-of-Like-Fractions/"
       },
       {
-        key:"joe_part_p2_adding_like",
-        level:"P2 Foundation",
-        title:"Adding of Like Fractions",
-        part:"Left Stabiliser Wing",
-        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Adding-of-Like-Fractions/"
+            "key": "space_max_part_p2_adding_like",
+            "legacyKey": "joe_part_p2_adding_like",
+            "level": "P2 Foundation",
+            "title": "Adding of Like Fractions",
+            "part": "Left Stabiliser Wing",
+            "url": "https://limkimsze-maker.github.io/P2-Space-Max-and-Adding-of-Like-Fractions/"
       },
       {
-        key:"joe_part_p2_subtraction_like",
-        level:"P2 Foundation",
-        title:"Subtraction of Like Fractions",
-        part:"Right Stabiliser Wing",
-        url:"https://limkimsze-maker.github.io/P2-Uncle-Joe-and-Subtraction-of-Like-Fractions/"
+            "key": "space_max_part_p2_subtraction_like",
+            "legacyKey": "joe_part_p2_subtraction_like",
+            "level": "P2 Foundation",
+            "title": "Subtraction of Like Fractions",
+            "part": "Right Stabiliser Wing",
+            "url": "https://limkimsze-maker.github.io/P2-Space-Max-and-Subtraction-of-Like-Fractions/"
       },
       {
-        key:"joe_part_p3_equivalent",
-        level:"P3 Fractions",
-        title:"Equivalent Fractions",
-        part:"Engine Gear",
-        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Equivalent-Fractions/"
+            "key": "space_max_part_p3_equivalent",
+            "legacyKey": "joe_part_p3_equivalent",
+            "level": "P3 Fractions",
+            "title": "Equivalent Fractions",
+            "part": "Engine Gear",
+            "url": "https://limkimsze-maker.github.io/P3-Space-Max-and-Equivalent-Fractions/"
       },
       {
-        key:"joe_part_p3_simplifying",
-        level:"P3 Fractions",
-        title:"Simplifying Fractions",
-        part:"Fuel Purifier",
-        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Simplifying-Fractions/"
+            "key": "space_max_part_p3_simplifying",
+            "legacyKey": "joe_part_p3_simplifying",
+            "level": "P3 Fractions",
+            "title": "Simplifying Fractions",
+            "part": "Fuel Purifier",
+            "url": "https://limkimsze-maker.github.io/P3-Space-Max-and-Simplifying-Fractions/"
       },
       {
-        key:"joe_part_p3_compare_order",
-        level:"P3 Fractions",
-        title:"Comparing and Ordering Fractions",
-        part:"Navigation Chip",
-        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Comparing-of-Unlike-Fraction/"
+            "key": "space_max_part_p3_compare_order",
+            "legacyKey": "joe_part_p3_compare_order",
+            "level": "P3 Fractions",
+            "title": "Comparing and Ordering Unlike Fractions",
+            "part": "Navigation Chip",
+            "url": "https://limkimsze-maker.github.io/P3-Space-Max-and-Comparing-of-Unlike-Fraction/"
       },
       {
-        key:"joe_part_p3_addition",
-        level:"P3 Fractions",
-        title:"Addition of Fractions",
-        part:"Energy Crystal",
-        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Addition-of-Unlike-Fractions/"
+            "key": "space_max_part_p3_addition",
+            "legacyKey": "joe_part_p3_addition",
+            "level": "P3 Fractions",
+            "title": "Addition of Unlike Fractions",
+            "part": "Energy Crystal",
+            "url": "https://limkimsze-maker.github.io/P3-Space-Max-and-Addition-of-Unlike-Fractions/"
       },
       {
-        key:"joe_part_p3_subtraction",
-        level:"P3 Fractions",
-        title:"Subtraction of Fractions",
-        part:"Control Screen",
-        url:"https://limkimsze-maker.github.io/P3-Uncle-Joe-and-Subtraction-of-Unlike-Fractions/"
+            "key": "space_max_part_p3_subtraction",
+            "legacyKey": "joe_part_p3_subtraction",
+            "level": "P3 Fractions",
+            "title": "Subtraction of Unlike Fractions",
+            "part": "Control Screen",
+            "url": "https://limkimsze-maker.github.io/P3-Space-Max-and-Subtraction-of-Unlike-Fractions/"
       }
-    ];
+];
 
     const $ = (id) => document.getElementById(id);
     const cover = $("cover");
@@ -1210,16 +1436,28 @@
 
     let teacherUnlocked = false;
 
-    function isCollected(key){
-      return localStorage.getItem(key) === "collected";
+    function normaliseProgress(){
+      MISSIONS.forEach(m => {
+        if(m.legacyKey && localStorage.getItem(m.legacyKey) === "collected" && localStorage.getItem(m.key) !== "collected"){
+          localStorage.setItem(m.key, "collected");
+        }
+      });
+    }
+
+    function isCollected(item){
+      const m = typeof item === "string"
+        ? MISSIONS.find(entry => entry.key === item || entry.legacyKey === item)
+        : item;
+      if(!m) return false;
+      return localStorage.getItem(m.key) === "collected" || (m.legacyKey && localStorage.getItem(m.legacyKey) === "collected");
     }
 
     function firstIncompleteIndex(){
-      return MISSIONS.findIndex(m => !isCollected(m.key));
+      return MISSIONS.findIndex(m => !isCollected(m));
     }
 
     function countCollected(){
-      return MISSIONS.filter(m => isCollected(m.key)).length;
+      return MISSIONS.filter(m => isCollected(m)).length;
     }
 
     function showToast(text){
@@ -1245,7 +1483,7 @@
       missionList.innerHTML = "";
 
       MISSIONS.forEach((m, i) => {
-        const done = isCollected(m.key);
+        const done = isCollected(m);
 
         const card = document.createElement("article");
         card.className = "mission " + (done ? "done" : "active");
@@ -1269,7 +1507,7 @@
       partLabels.innerHTML = "";
       MISSIONS.forEach((m, i) => {
         const label = document.createElement("div");
-        label.className = "miniPart " + (isCollected(m.key) ? "done" : "");
+        label.className = "miniPart " + (isCollected(m) ? "done" : "");
         label.textContent = (i + 1) + ". " + m.part;
         partLabels.appendChild(label);
       });
@@ -1289,6 +1527,7 @@
     }
 
     function refresh(){
+      normaliseProgress();
       const collected = countCollected();
       const total = MISSIONS.length;
       const percent = Math.round((collected / total) * 100);
@@ -1299,7 +1538,7 @@
 
       const first = firstIncompleteIndex();
       if(first === -1){
-        repairLine.textContent = "All parts collected. Uncle Joe is ready to return to Earth!";
+        repairLine.textContent = "All parts collected. Space Max is ready to return to Earth!";
         finalBox.classList.add("ready");
         finalTitle.textContent = "Final Launch Unlocked";
         finalMsg.textContent = "The rocket is complete. Start the countdown!";
@@ -1308,7 +1547,7 @@
         repairLine.textContent = "Choose any mission. Complete all ten to unlock the final launch.";
         finalBox.classList.remove("ready");
         finalTitle.textContent = "Final Launch Locked";
-        finalMsg.textContent = `Collect ${total - collected} more part${total - collected === 1 ? "" : "s"} before Uncle Joe can launch.`;
+        finalMsg.textContent = `Collect ${total - collected} more part${total - collected === 1 ? "" : "s"} before Space Max can launch.`;
         launchBtn.disabled = true;
       }
 
@@ -1331,15 +1570,18 @@
     function openMission(i){
       const m = MISSIONS[i];
 
-      // GitHub Pages link is used here. Change the URL in MISSIONS if your page uses another link.
-      window.open(m.url, "_blank", "noopener,noreferrer");
-      showToast("Mission opened in a new tab.");
+      // Same-tab navigation works better on phones and avoids pop-up blocking.
+      showToast("Opening mission...");
+      setTimeout(() => {
+        window.location.href = m.url;
+      }, 120);
     }
 
     function toggleMark(i){
       const m = MISSIONS[i];
-      if(isCollected(m.key)){
+      if(isCollected(m)){
         localStorage.removeItem(m.key);
+        if(m.legacyKey) localStorage.removeItem(m.legacyKey);
         showToast(`${m.part} removed.`);
       }else{
         localStorage.setItem(m.key, "collected");
@@ -1412,7 +1654,10 @@
 
         document.getElementById("clearAll").addEventListener("click", () => {
           if(confirm("Reset all rocket part progress?")){
-            MISSIONS.forEach(m => localStorage.removeItem(m.key));
+            MISSIONS.forEach(m => {
+              localStorage.removeItem(m.key);
+              if(m.legacyKey) localStorage.removeItem(m.legacyKey);
+            });
             closeModal();
             showToast("Progress reset.");
             refresh();
@@ -1466,7 +1711,7 @@
     $("howBtn").addEventListener("click", () => {
       openModal(
         "How to play",
-        "Choose any fraction game. Each completed game gives Uncle Joe one rocket machine part. The final launch unlocks only after all ten parts are collected."
+        "Choose any fraction game. Each completed game gives Space Max one rocket machine part. The final launch unlocks only after all ten parts are collected."
       );
     });
     $("modalClose").addEventListener("click", closeModal);
