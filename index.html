@@ -618,12 +618,58 @@
       border:4px solid rgba(255,255,255,.55);
     }
 
-    .partLabels{
+    .rewardsBox{
       position:absolute;
-      left:10px; right:10px; bottom:8px;
+      left:10px;
+      right:10px;
+      bottom:8px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(5,12,31,.78);
+      box-shadow:0 12px 32px rgba(0,0,0,.28);
+      overflow:hidden;
+      backdrop-filter:blur(8px);
+    }
+    .rewardsToggle{
+      width:100%;
+      border:0;
+      padding:8px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      color:var(--text);
+      background:linear-gradient(135deg,rgba(117,244,255,.16),rgba(255,217,106,.10));
+      cursor:pointer;
+      font-weight:1000;
+      font-size:12px;
+    }
+    .rewardCount{
+      color:var(--gold);
+      font-size:11px;
+      white-space:nowrap;
+    }
+    .rewardArrow{
+      transition:transform .2s ease;
+    }
+    .rewardsBox.open .rewardArrow{
+      transform:rotate(180deg);
+    }
+    .partLabels{
       display:grid;
       grid-template-columns:repeat(5,1fr);
       gap:6px;
+      padding:8px;
+      max-height:170px;
+      opacity:1;
+      overflow:hidden;
+      transition:max-height .25s ease, opacity .2s ease, padding .25s ease;
+    }
+    .rewardsBox:not(.open) .partLabels{
+      max-height:0;
+      opacity:0;
+      padding-top:0;
+      padding-bottom:0;
     }
     .miniPart{
       border-radius:14px;
@@ -951,6 +997,8 @@
         grid-template-columns:repeat(5,1fr);
         gap:4px;
       }
+      .rewardsBox{left:8px;right:8px;bottom:6px;border-radius:14px;}
+      .rewardsToggle{padding:7px 9px;font-size:11px;}
       .miniPart{font-size:9px;padding:4px 2px;min-height:26px}
       .missionList{
         grid-template-columns:1fr;
@@ -1075,7 +1123,10 @@
         height:300px;
         transform:translate(-50%,-50%) scale(.52);
       }
-      .partLabels{display:none;}
+      .rewardsBox{left:6px;right:6px;bottom:6px;}
+      .partLabels{grid-template-columns:repeat(2,1fr);gap:4px;}
+      .rewardsToggle{padding:6px 8px;font-size:10.5px;}
+      .rewardCount{font-size:10px;}
       .sequenceNote{display:none;}
       .missionList{
         grid-template-columns:1fr;
@@ -1167,7 +1218,10 @@
       .panelHead h2{font-size:15px;}
       .progressWrap{height:15px;margin:3px 0 6px;}
       .assembledRocket{transform:translate(-50%,-50%) scale(.50);}
-      .partLabels{display:none;}
+      .rewardsBox{left:6px;right:6px;bottom:6px;}
+      .partLabels{grid-template-columns:repeat(2,1fr);gap:4px;}
+      .rewardsToggle{padding:6px 8px;font-size:10.5px;}
+      .rewardCount{font-size:10px;}
       .missionList{grid-template-columns:1fr;gap:6px;}
       .mission{min-height:68px;padding:7px;border-radius:14px;}
       .badge{width:28px;height:28px;font-size:11px;}
@@ -1216,7 +1270,7 @@
 
         <div class="heroScene coverArt" aria-label="Space Max cover art">
           <div class="coverGlow"></div>
-          <img class="coverPicture" src="https://raw.githubusercontent.com/limkimsze-maker/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/main/bbaf7174-97f8-4bce-939d-764d26e90770.png" alt="Space Max and the Lost Fraction Rocket Parts cover picture" onerror="this.style.display='none';this.parentElement.classList.add('coverFallback');" />
+          <img class="coverPicture" src="https://limkimsze-maker.github.io/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/bbaf7174-97f8-4bce-939d-764d26e90770.png" alt="Space Max and the Lost Fraction Rocket Parts cover picture" onerror="this.style.display='none';this.parentElement.classList.add('coverFallback');" />
         </div>
       </section>
 
@@ -1251,7 +1305,14 @@
               <div class="rPart engine" data-engine></div>
               <div class="rPart flame" data-flame></div>
             </div>
-            <div class="partLabels" id="partLabels"></div>
+            <div class="rewardsBox" id="rewardsBox">
+              <button class="rewardsToggle" id="rewardsToggle" type="button" aria-expanded="false">
+                <span>Rocket Rewards</span>
+                <span class="rewardCount" id="rewardCount">0 / 10 collected</span>
+                <span class="rewardArrow" aria-hidden="true">⌄</span>
+              </button>
+              <div class="partLabels" id="partLabels"></div>
+            </div>
           </div>
         </div>
 
@@ -1328,7 +1389,7 @@
       Then send pupils back to this hub:
       location.href = "https://limkimsze-maker.github.io/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/";
 
-      The hub also migrates older progress keys automatically, so
+      The hub also migrates older Uncle Joe progress keys automatically, so
       previously completed work will still appear as collected.
     */
 
@@ -1424,6 +1485,9 @@
     const progressText = $("progressText");
     const repairLine = $("repairLine");
     const partLabels = $("partLabels");
+    const rewardsBox = $("rewardsBox");
+    const rewardsToggle = $("rewardsToggle");
+    const rewardCount = $("rewardCount");
     const finalBox = $("finalBox");
     const finalTitle = $("finalTitle");
     const finalMsg = $("finalMsg");
@@ -1535,6 +1599,7 @@
       topProgress.textContent = `${collected} / ${total} parts`;
       progressBar.style.width = `${percent}%`;
       progressText.textContent = `${collected} / ${total} rocket parts collected`;
+      rewardCount.textContent = `${collected} / ${total} collected`;
 
       const first = firstIncompleteIndex();
       if(first === -1){
@@ -1704,6 +1769,11 @@
       const markIdx = e.target.getAttribute("data-mark");
       if(openIdx !== null) openMission(Number(openIdx));
       if(markIdx !== null) toggleMark(Number(markIdx));
+    });
+
+    rewardsToggle.addEventListener("click", () => {
+      const isOpen = rewardsBox.classList.toggle("open");
+      rewardsToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
     $("beginBtn").addEventListener("click", showHub);
