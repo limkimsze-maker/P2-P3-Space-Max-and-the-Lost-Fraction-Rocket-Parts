@@ -417,7 +417,8 @@
       inset:0;
       padding:72px 16px 16px;
       display:grid;
-      grid-template-columns:minmax(340px,.86fr) minmax(440px,1.14fr);
+      grid-template-columns:minmax(500px,1.34fr) minmax(300px,.66fr);
+      grid-template-areas:"missions rocket";
       gap:14px;
     }
 
@@ -432,10 +433,13 @@
     }
 
     .rocketPanel{
+      grid-area:rocket;
       display:flex;
       flex-direction:column;
       padding:14px;
     }
+
+    .missionPanel{grid-area:missions;}
 
     .panelHead{
       display:flex;
@@ -696,6 +700,20 @@
       flex-direction:column;
     }
 
+    .missionHead{
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+
+    .infoButton{
+      flex:0 0 auto;
+      white-space:nowrap;
+    }
+
+    .collapsedNote{
+      display:none;
+    }
+
     .sequenceNote{
       border-radius:18px;
       padding:10px 12px;
@@ -709,7 +727,7 @@
 
     .missionList{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
       gap:9px;
       overflow:auto;
       padding:2px 4px 8px 0;
@@ -722,7 +740,7 @@
       border-radius:19px;
       padding:10px;
       background:rgba(255,255,255,.075);
-      min-height:105px;
+      min-height:92px;
       display:grid;
       grid-template-columns:auto 1fr;
       gap:9px;
@@ -984,11 +1002,12 @@
       }
       .hub{
         grid-template-columns:1fr;
-        grid-template-rows:43% 57%;
+        grid-template-rows:minmax(0,1fr) 35%;
+        grid-template-areas:"missions" "rocket";
         padding:68px 10px 10px;
       }
-      .rocketPanel{padding:10px}
-      .missionPanel{padding:10px}
+      .rocketPanel{padding:10px;min-height:0;}
+      .missionPanel{padding:10px;min-height:0;}
       .assembledRocket{
         width:160px;height:310px;
         transform:translate(-50%,-50%) scale(.75);
@@ -1104,7 +1123,8 @@
       .hub{
         padding:58px 8px 8px;
         grid-template-columns:1fr;
-        grid-template-rows:34% minmax(0,66%);
+        grid-template-rows:minmax(0,1fr) 32%;
+        grid-template-areas:"missions" "rocket";
         gap:8px;
       }
       .rocketPanel,.missionPanel{
@@ -1183,7 +1203,7 @@
       .pill{display:none;}
       .coverPicture{max-height:27vh;}
       .storyCard p:nth-of-type(2){display:none;}
-      .hub{grid-template-rows:30% minmax(0,70%);}
+      .hub{grid-template-rows:minmax(0,1fr) 28%;}
       .assembledRocket{transform:translate(-50%,-50%) scale(.45);}
       .mission{min-height:70px;}
       .partName{display:none;}
@@ -1209,7 +1229,8 @@
       .primary{min-width:0;padding:9px 12px;font-size:13px;}
       .hub{
         padding-top:50px;
-        grid-template-columns:38% minmax(0,62%);
+        grid-template-columns:minmax(0,62%) 38%;
+        grid-template-areas:"missions rocket";
         grid-template-rows:1fr;
         gap:8px;
       }
@@ -1239,6 +1260,34 @@
       .btn,.missionBtn{min-height:38px;}
     }
 
+
+    /* Mission-select landing: keep story and rewards secondary. */
+    .missionSelect .missionPanel{
+      box-shadow:0 22px 70px rgba(0,0,0,.48), 0 0 0 1px rgba(117,244,255,.10);
+    }
+    .missionSelect .rocketPanel{
+      opacity:.98;
+    }
+    @media (max-width:560px){
+      .missionHead{
+        flex-direction:column;
+        align-items:stretch;
+        gap:6px;
+      }
+      .infoButton{
+        width:100%;
+        text-align:center;
+      }
+      .missionPanel .panelHead p{
+        display:block;
+        font-size:10.5px;
+        line-height:1.2;
+      }
+      .rocketPanel .panelHead p{
+        display:none;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1247,7 +1296,7 @@
       <div class="topbar">
         <div class="brand">
           <div class="title">Space Max and the Lost Fraction Rocket Parts</div>
-          <div class="sub">Missions are arranged by learning sequence, but pupils may choose any topic</div>
+          <div class="sub">Choose a mission. Story and rewards are tucked away in buttons.</div>
         </div>
         <div class="row">
           <div class="pill" id="topProgress">0 / 10 parts</div>
@@ -1255,7 +1304,7 @@
         </div>
       </div>
 
-      <section class="cover" id="cover">
+      <section class="cover hidden" id="cover">
         <div class="storyCard">
           <div class="chapter">🚀 P2 → P3 Fractions Journey</div>
           <h1>Help Space Max rebuild the Fraction Rocket.</h1>
@@ -1274,14 +1323,14 @@
         </div>
       </section>
 
-      <section class="hub hidden" id="hub">
+      <section class="hub missionSelect" id="hub">
         <div class="rocketPanel">
           <div class="panelHead">
             <div>
               <h2>Rocket Repair Bay</h2>
               <p id="repairLine">Choose any mission to collect a rocket part.</p>
             </div>
-            <button class="btn small" id="backStoryBtn" type="button">Story</button>
+            <button class="btn small" id="backStoryBtn" type="button">Story & Help</button>
           </div>
 
           <div class="progressWrap">
@@ -1317,14 +1366,15 @@
         </div>
 
         <div class="missionPanel">
-          <div class="panelHead">
+          <div class="panelHead missionHead">
             <div>
-              <h2>Mission Sequence</h2>
-              <p>P2 foundation first, then P3 Fractions.</p>
+              <h2>Choose a Mission</h2>
+              <p>Tap any topic to begin. Completed tests collect rocket parts.</p>
             </div>
+            <button class="btn ghost infoButton" id="storyInfoBtn" type="button">Story & How to play</button>
           </div>
-          <div class="sequenceNote">
-            Missions are arranged in learning sequence, but pupils may attempt any topic first.
+          <div class="sequenceNote collapsedNote">
+            Non-essential story details are hidden in the Story & How to play button to keep mission selection clear.
           </div>
           <div class="missionList" id="missionList"></div>
 
@@ -1389,7 +1439,7 @@
       Then send pupils back to this hub:
       location.href = "https://limkimsze-maker.github.io/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/";
 
-      The hub also migrates older Uncle Joe progress keys automatically, so
+      The hub also migrates older Space Max progress keys automatically, so
       previously completed work will still appear as collected.
     */
 
@@ -1541,6 +1591,17 @@
     function closeModal(){
       modalBackdrop.classList.add("hidden");
       modalExtra.innerHTML = "";
+    }
+
+    function openStoryInfo(){
+      openModal(
+        "Story & How to play",
+        "Space Max was captured by an alien and stranded on a strange fraction planet. His rocket is broken into ten machine parts. Choose any mission, complete its test, and the matching rocket part will appear in the repair bay.",
+        `<div class="sequenceNote" style="display:block;margin:8px 0 0;text-align:left">
+          <b>Mission rule:</b> pupils may attempt any topic first. The final launch unlocks only after all ten rocket parts are collected.<br><br>
+          <b>Teacher tools:</b> use password 67 to mark parts for testing.
+        </div>`
+      );
     }
 
     function buildMissions(){
@@ -1777,13 +1838,9 @@
     });
 
     $("beginBtn").addEventListener("click", showHub);
-    $("backStoryBtn").addEventListener("click", showCover);
-    $("howBtn").addEventListener("click", () => {
-      openModal(
-        "How to play",
-        "Choose any fraction game. Each completed game gives Space Max one rocket machine part. The final launch unlocks only after all ten parts are collected."
-      );
-    });
+    $("backStoryBtn").addEventListener("click", openStoryInfo);
+    $("howBtn").addEventListener("click", openStoryInfo);
+    $("storyInfoBtn").addEventListener("click", openStoryInfo);
     $("modalClose").addEventListener("click", closeModal);
     modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
     $("teacherBtn").addEventListener("click", () => teacherUnlocked ? teacherPanel() : unlockTeacher());
