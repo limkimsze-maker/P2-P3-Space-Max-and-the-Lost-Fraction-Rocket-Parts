@@ -852,6 +852,39 @@
       background:linear-gradient(135deg,rgba(255,217,106,.14),rgba(117,244,255,.10));
     }
 
+    .resetProgressBox{
+      margin-top:10px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.055);
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .resetProgressBox p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .resetProgressBtn{
+      border:1px solid rgba(255,101,128,.42);
+      border-radius:999px;
+      padding:9px 13px;
+      color:#ffe6eb;
+      background:rgba(255,101,128,.12);
+      font-weight:1000;
+      cursor:pointer;
+      min-width:174px;
+      touch-action:none;
+    }
+    .resetProgressBtn.holding{
+      color:#061426;
+      background:linear-gradient(135deg,#ff6580,#ffb35f);
+    }
+
     .modalBackdrop{
       position:absolute;
       inset:0;
@@ -1385,6 +1418,10 @@
             </div>
             <button class="btn primary gold" id="launchBtn" type="button" disabled>Launch</button>
           </div>
+          <div class="resetProgressBox">
+            <p>Need to start again on this device?</p>
+            <button class="resetProgressBtn" id="resetProgressBtn" type="button">Hold 2s to Reset Progress</button>
+          </div>
         </div>
       </section>
 
@@ -1542,6 +1579,7 @@
     const finalTitle = $("finalTitle");
     const finalMsg = $("finalMsg");
     const launchBtn = $("launchBtn");
+    const resetProgressBtn = $("resetProgressBtn");
     const modalBackdrop = $("modalBackdrop");
     const modalTitle = $("modalTitle");
     const modalText = $("modalText");
@@ -1556,6 +1594,18 @@
           localStorage.setItem(m.key, "collected");
         }
       });
+    }
+
+    function resetAllProgress(){
+      MISSIONS.forEach(m => {
+        localStorage.removeItem(m.key);
+        localStorage.removeItem(m.key + "_completedAt");
+        if(m.legacyKey){
+          localStorage.removeItem(m.legacyKey);
+          localStorage.removeItem(m.legacyKey + "_completedAt");
+        }
+      });
+      refresh();
     }
 
     function isCollected(item){
@@ -1599,7 +1649,7 @@
         "Space Max was captured by an alien and stranded on a strange fraction planet. His rocket is broken into ten machine parts. Choose any mission, complete its test, and the matching rocket part will appear in the repair bay.",
         `<div class="sequenceNote" style="display:block;margin:8px 0 0;text-align:left">
           <b>Mission rule:</b> pupils may attempt any topic first. The final launch unlocks only after all ten rocket parts are collected.<br><br>
-          <b>Teacher tools:</b> use password 67 to mark parts for testing.
+          <b>Teacher tools:</b> for teacher testing only.
         </div>`
       );
     }
@@ -1733,7 +1783,9 @@
         input.focus();
 
         function tryUnlock(){
-          if(input.value === "67"){
+          const entered = input.value || "";
+          const teacherCode = String.fromCharCode(54, 55);
+          if(entered === teacherCode){
             teacherUnlocked = true;
             closeModal();
             showToast("Teacher tools unlocked.");
@@ -1780,13 +1832,9 @@
 
         document.getElementById("clearAll").addEventListener("click", () => {
           if(confirm("Reset all rocket part progress?")){
-            MISSIONS.forEach(m => {
-              localStorage.removeItem(m.key);
-              if(m.legacyKey) localStorage.removeItem(m.legacyKey);
-            });
+            resetAllProgress();
             closeModal();
             showToast("Progress reset.");
-            refresh();
           }
         });
 
@@ -1845,6 +1893,40 @@
     modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
     $("teacherBtn").addEventListener("click", () => teacherUnlocked ? teacherPanel() : unlockTeacher());
     launchBtn.addEventListener("click", launch);
+
+    let resetHoldTimer = null;
+    let resetHoldDone = false;
+
+    function stopResetHold(){
+      clearTimeout(resetHoldTimer);
+      resetHoldTimer = null;
+      if(!resetHoldDone){
+        resetProgressBtn.textContent = "Hold 2s to Reset Progress";
+      }
+      resetProgressBtn.classList.remove("holding");
+    }
+
+    resetProgressBtn.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      resetHoldDone = false;
+      resetProgressBtn.classList.add("holding");
+      resetProgressBtn.textContent = "Keep holding...";
+      clearTimeout(resetHoldTimer);
+      resetHoldTimer = setTimeout(() => {
+        resetHoldDone = true;
+        resetAllProgress();
+        showToast("Progress reset on this device.");
+        resetProgressBtn.textContent = "Progress Reset";
+        resetProgressBtn.classList.remove("holding");
+        setTimeout(() => {
+          resetProgressBtn.textContent = "Hold 2s to Reset Progress";
+          resetHoldDone = false;
+        }, 1200);
+      }, 2000);
+    });
+    resetProgressBtn.addEventListener("pointerup", stopResetHold);
+    resetProgressBtn.addEventListener("pointerleave", stopResetHold);
+    resetProgressBtn.addEventListener("pointercancel", stopResetHold);
 
     // Press R to refresh after returning from another tab.
     window.addEventListener("focus", refresh);
