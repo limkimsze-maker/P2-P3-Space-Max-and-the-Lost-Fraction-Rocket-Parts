@@ -851,6 +851,13 @@
       border-color:rgba(255,217,106,.44);
       background:linear-gradient(135deg,rgba(255,217,106,.14),rgba(117,244,255,.10));
     }
+    .finalActions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
 
     .resetProgressBox{
       margin-top:10px;
@@ -981,6 +988,663 @@
       color:#dce7ff;
       margin-top:8px;
       line-height:1.4;
+    }
+
+    .cheatLaunch{
+      min-width:0;
+      padding:10px 14px;
+      font-size:12px;
+      background:linear-gradient(135deg,#ffe082,#ff9f43 56%,#ff6fa8);
+      color:#1e1000;
+    }
+    .missionQuickActions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .cinema{
+      position:relative;
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      perspective:1000px;
+    }
+    .cinema::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background-image:
+        radial-gradient(circle,#fff 0 1px,transparent 1.8px),
+        radial-gradient(circle,rgba(117,244,255,.85) 0 1px,transparent 1.6px),
+        radial-gradient(circle,rgba(255,217,106,.75) 0 1px,transparent 1.4px);
+      background-size:82px 82px,132px 132px,210px 210px;
+      opacity:.48;
+      animation:cinemaStars 22s linear infinite;
+    }
+    @keyframes cinemaStars{to{transform:translate(-160px,110px)}}
+
+    .planetEarth{
+      position:absolute;
+      width:min(360px,48vw);
+      aspect-ratio:1;
+      border-radius:50%;
+      right:-110px;
+      bottom:-130px;
+      background:
+        radial-gradient(circle at 35% 28%,rgba(255,255,255,.9),transparent 0 5%,transparent 18%),
+        radial-gradient(circle at 40% 43%,#42d27a 0 16%,transparent 17%),
+        radial-gradient(circle at 64% 58%,#42d27a 0 14%,transparent 15%),
+        radial-gradient(circle at 29% 68%,#42d27a 0 12%,transparent 13%),
+        linear-gradient(135deg,#2cc7ff,#1b61d7 72%);
+      box-shadow:0 0 80px rgba(45,199,255,.42), inset -35px -45px 60px rgba(0,0,0,.32);
+      opacity:0;
+      transform:translateY(80px) scale(.8);
+      transition:opacity 1s ease, transform 1s ease;
+    }
+    .launchScene.phase-earth .planetEarth{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+    .launchScene.phase-home .planetEarth{
+      opacity:0;
+      transform:translateY(120px) scale(.55);
+    }
+
+    .launchGround{
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:25%;
+      background:
+        radial-gradient(ellipse at 50% 0%,rgba(117,244,255,.2),transparent 46%),
+        linear-gradient(180deg,rgba(32,21,77,.5),rgba(7,13,38,.98));
+      border-top:1px solid rgba(117,244,255,.2);
+      transition:opacity .7s ease;
+    }
+    .launchScene.phase-flight .launchGround,
+    .launchScene.phase-earth .launchGround,
+    .launchScene.phase-home .launchGround{opacity:0}
+
+    .farewellAliens{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:18%;
+      height:160px;
+      z-index:2;
+      pointer-events:none;
+      opacity:1;
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .launchScene.phase-flight .farewellAliens,
+    .launchScene.phase-earth .farewellAliens,
+    .launchScene.phase-home .farewellAliens{
+      opacity:0;
+      transform:translateY(18px) scale(.96);
+    }
+    .farewellAlien{
+      position:absolute;
+      width:58px;
+      height:86px;
+      transform-origin:50% 100%;
+      animation:alienBounce 1.5s ease-in-out infinite;
+      filter:drop-shadow(0 12px 12px rgba(0,0,0,.32));
+    }
+    .farewellAlien.a1{left:13%;bottom:6px;--skin:#74ff8d;--accent:#ffe36d;animation-delay:0s}
+    .farewellAlien.a2{left:25%;bottom:42px;--skin:#75f4ff;--accent:#ff79be;animation-delay:.2s}
+    .farewellAlien.a3{left:35%;bottom:6px;--skin:#b58cff;--accent:#75f4ff;animation-delay:.4s}
+    .farewellAlien.a4{right:34%;bottom:8px;--skin:#ffe36d;--accent:#ff6580;animation-delay:.1s}
+    .farewellAlien.a5{right:23%;bottom:46px;--skin:#ff8bd4;--accent:#75f4ff;animation-delay:.32s}
+    .farewellAlien.a6{right:12%;bottom:8px;--skin:#6dff9f;--accent:#b58cff;animation-delay:.52s}
+    @keyframes alienBounce{
+      0%,100%{transform:translateY(0) rotate(-2deg)}
+      50%{transform:translateY(-9px) rotate(2deg)}
+    }
+    .alienHead{
+      position:absolute;
+      left:5px;
+      top:0;
+      width:48px;
+      height:42px;
+      border-radius:50% 50% 44% 44%;
+      background:var(--skin);
+      border:3px solid rgba(6,20,38,.9);
+    }
+    .alienAntenna{
+      position:absolute;
+      left:28px;
+      top:-13px;
+      width:4px;
+      height:17px;
+      border-radius:999px;
+      background:rgba(6,20,38,.9);
+    }
+    .alienAntenna::after{
+      content:"";
+      position:absolute;
+      left:-5px;
+      top:-8px;
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:var(--accent);
+      border:3px solid rgba(6,20,38,.9);
+    }
+    .alienEye{
+      position:absolute;
+      top:15px;
+      width:11px;
+      height:13px;
+      border-radius:50%;
+      background:#061426;
+    }
+    .alienEye.l{left:13px}
+    .alienEye.r{right:13px}
+    .alienSmile{
+      position:absolute;
+      left:18px;
+      top:29px;
+      width:15px;
+      height:8px;
+      border-bottom:3px solid #061426;
+      border-radius:0 0 12px 12px;
+    }
+    .alienBody{
+      position:absolute;
+      left:12px;
+      top:38px;
+      width:34px;
+      height:42px;
+      border-radius:18px 18px 12px 12px;
+      background:linear-gradient(180deg,#fff,#dfe8ff);
+      border:3px solid rgba(6,20,38,.9);
+    }
+    .alienArm{
+      position:absolute;
+      top:43px;
+      width:12px;
+      height:34px;
+      border-radius:999px;
+      background:var(--skin);
+      border:3px solid rgba(6,20,38,.9);
+      transform-origin:50% 8%;
+      animation:alienWave .8s ease-in-out infinite alternate;
+    }
+    .alienArm.l{left:2px;transform:rotate(34deg)}
+    .alienArm.r{right:2px;transform:rotate(-34deg);animation-delay:.2s}
+    @keyframes alienWave{
+      from{transform:rotate(-42deg)}
+      to{transform:rotate(-88deg)}
+    }
+    .alienArm.l{animation-name:alienWaveLeft}
+    @keyframes alienWaveLeft{
+      from{transform:rotate(42deg)}
+      to{transform:rotate(88deg)}
+    }
+    .alienLeg{
+      position:absolute;
+      top:75px;
+      width:13px;
+      height:16px;
+      border-radius:999px;
+      background:var(--skin);
+      border:3px solid rgba(6,20,38,.9);
+    }
+    .alienLeg.l{left:17px}
+    .alienLeg.r{right:17px}
+    .farewellSign{
+      position:absolute;
+      left:15%;
+      bottom:126px;
+      transform:translateX(-50%) rotate(3deg);
+      padding:8px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.92);
+      border:3px solid #061426;
+      color:#061426;
+      font-size:13px;
+      font-weight:1000;
+      white-space:nowrap;
+      box-shadow:0 10px 18px rgba(0,0,0,.24);
+      animation:signFloat 1.8s ease-in-out infinite;
+    }
+    .farewellSign.thanksLeft{
+      left:18%;
+      bottom:82px;
+      background:#fff7cc;
+      transform:translateX(-50%) rotate(-4deg);
+      animation-delay:.35s;
+    }
+    .farewellSign.thanksRight{
+      left:84%;
+      bottom:126px;
+      background:#e9fdff;
+      transform:translateX(-50%) rotate(-4deg);
+      animation-delay:.7s;
+    }
+    .farewellSign.goodbyeRight{
+      left:86%;
+      bottom:82px;
+      background:#f2e8ff;
+      transform:translateX(-50%) rotate(4deg);
+      animation-delay:.2s;
+    }
+    @keyframes signFloat{
+      0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg)}
+      50%{transform:translateX(-50%) translateY(-8px) rotate(2deg)}
+    }
+
+    .spaceRocket3d{
+      position:absolute;
+      width:164px;
+      height:330px;
+      left:50%;
+      bottom:17%;
+      transform:translateX(-50%) rotateX(7deg) rotateY(-10deg);
+      transform-style:preserve-3d;
+      filter:drop-shadow(0 30px 30px rgba(0,0,0,.45));
+      transition:transform 1s ease, left 1s ease, bottom 1s ease, opacity .4s ease;
+    }
+    .rocket3dPart{position:absolute;transform-style:preserve-3d}
+    .rocket3dNose{
+      left:49px;top:0;width:66px;height:82px;
+      background:linear-gradient(135deg,#ffffff,#9defff 55%,#5e8cff);
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+      filter:drop-shadow(8px 6px 0 rgba(0,0,0,.14));
+    }
+    .rocket3dBody{
+      left:35px;top:62px;width:94px;height:176px;border-radius:42px 42px 20px 20px;
+      background:linear-gradient(90deg,#e8fbff 0 18%,#75f4ff 19% 42%,#6c7cff 43% 72%,#3b327d 73% 100%);
+      border:3px solid rgba(255,255,255,.65);
+      box-shadow:inset -18px 0 24px rgba(0,0,0,.23), inset 15px 0 18px rgba(255,255,255,.36);
+    }
+    .rocket3dWindow{
+      left:58px;top:102px;width:48px;height:48px;border-radius:50%;
+      background:radial-gradient(circle at 35% 30%,#fff 0 12%,#ffe36d 13% 36%,#2a2a7e 38% 100%);
+      border:5px solid #596789;
+      box-shadow:0 0 18px rgba(255,217,106,.5);
+    }
+    .rocket3dDoor{
+      left:70px;top:164px;width:26px;height:58px;border-radius:16px 16px 8px 8px;
+      background:linear-gradient(180deg,#201d58,#0a1438);
+      border:2px solid rgba(255,255,255,.35);
+      transform-origin:left center;
+      transition:transform .6s ease;
+    }
+    .launchScene.phase-walk .rocket3dDoor{transform:rotateY(-62deg)}
+    .rocket3dLeftFin,.rocket3dRightFin{
+      top:198px;width:54px;height:84px;
+      background:linear-gradient(135deg,#ff6b93,#b86cff);
+      border:2px solid rgba(255,255,255,.45);
+    }
+    .rocket3dLeftFin{left:0;clip-path:polygon(100% 0,100% 100%,0 100%)}
+    .rocket3dRightFin{right:0;clip-path:polygon(0 0,100% 100%,0 100%)}
+    .rocket3dEngine{
+      left:49px;top:232px;width:66px;height:38px;border-radius:0 0 20px 20px;
+      background:linear-gradient(90deg,#445,#202343,#11182f);
+      border:2px solid rgba(255,255,255,.32);
+    }
+    .rocket3dFlame{
+      left:51px;top:266px;width:62px;height:104px;border-radius:50% 50% 56% 56%;
+      background:radial-gradient(circle at 50% 24%,#fff 0 10%,#ffe36d 11% 28%,#ff8a30 29% 54%,rgba(255,60,90,.88) 55% 100%);
+      filter:blur(.2px) drop-shadow(0 0 24px rgba(255,160,58,.8));
+      transform-origin:50% 0;
+      animation:rocketFlame 120ms infinite alternate;
+      opacity:0;
+    }
+    @keyframes rocketFlame{from{transform:scaleY(.82)}to{transform:scaleY(1.12)}}
+    .launchScene.phase-flight .rocket3dFlame,
+    .launchScene.phase-earth .rocket3dFlame{opacity:1}
+    .launchScene.phase-flight .spaceRocket3d{
+      left:55%;
+      bottom:105%;
+      transform:translateX(-50%) rotateX(9deg) rotateY(-10deg) rotateZ(10deg) scale(.88);
+      transition:bottom 3.2s ease-in, left 3.2s ease-in, transform 3.2s ease-in;
+    }
+    .launchScene.phase-earth .spaceRocket3d{
+      left:66%;
+      bottom:28%;
+      transform:translateX(-50%) rotateX(7deg) rotateY(-10deg) rotateZ(0deg) scale(.55);
+      transition:bottom 2s ease-out, left 2s ease-out, transform 2s ease-out;
+    }
+    .launchScene.phase-home .spaceRocket3d{opacity:0}
+
+    .spaceMaxActor,.spaceMother{
+      position:absolute;
+      width:92px;height:150px;
+      bottom:17%;
+      left:20%;
+      transform-style:preserve-3d;
+      transition:left 2.1s ease, bottom 1s ease, transform .8s ease, opacity .45s ease;
+      filter:drop-shadow(0 18px 18px rgba(0,0,0,.36));
+    }
+    .spaceMother{left:64%;bottom:16%;opacity:0;transform:scale(.95)}
+    .astroHead{
+      position:absolute;left:19px;top:0;width:54px;height:54px;border-radius:50%;
+      background:rgba(240,252,255,.95);
+      border:4px solid rgba(117,244,255,.8);
+      box-shadow:inset -8px -7px 13px rgba(0,0,0,.18);
+    }
+    .astroVisor{
+      position:absolute;left:10px;top:18px;width:34px;height:20px;border-radius:12px;
+      background:linear-gradient(135deg,#111a3c,#4cdcff);
+      border:2px solid rgba(255,255,255,.55);
+    }
+    .astroBody{
+      position:absolute;left:25px;top:52px;width:42px;height:62px;border-radius:18px;
+      background:linear-gradient(135deg,#f8ffff,#75f4ff 55%,#586dff);
+      border:2px solid rgba(255,255,255,.7);
+    }
+    .astroArm,.astroLeg{position:absolute;border-radius:999px;background:linear-gradient(135deg,#f8ffff,#75f4ff);border:2px solid rgba(255,255,255,.55)}
+    .astroArm.l{left:9px;top:62px;width:22px;height:58px;transform:rotate(24deg)}
+    .astroArm.r{right:9px;top:62px;width:22px;height:58px;transform:rotate(-24deg)}
+    .astroLeg.l{left:27px;top:108px;width:18px;height:42px}
+    .astroLeg.r{right:27px;top:108px;width:18px;height:42px}
+    .spaceMother .astroBody,.spaceMother .astroArm,.spaceMother .astroLeg{
+      background:linear-gradient(135deg,#fff4fb,#ff9bd2 55%,#b86cff);
+    }
+    .launchScene.phase-walk .spaceMaxActor{
+      left:43%;
+      transform:scale(.86);
+    }
+    .launchScene.phase-board .rocket3dDoor{transform:rotateY(-62deg)}
+    .launchScene.phase-board .spaceMaxActor,
+    .launchScene.phase-count .spaceMaxActor{
+      left:43%;
+      transform:scale(.72);
+      opacity:0;
+    }
+    .launchScene.phase-flight .spaceMaxActor,
+    .launchScene.phase-earth .spaceMaxActor{opacity:0}
+    .launchScene.phase-home .spaceMaxActor{
+      opacity:1;
+      left:48%;
+      bottom:16%;
+      transform:scale(1);
+    }
+    .launchScene.phase-home .spaceMother{
+      opacity:1;
+      left:56%;
+      transform:scale(1);
+    }
+    .launchScene.phase-home .spaceMaxActor .astroArm.r{transform:rotate(-74deg)}
+    .launchScene.phase-home .spaceMother .astroArm.l{transform:rotate(74deg)}
+
+    .launchStatus{
+      position:absolute;
+      left:50%;
+      top:9%;
+      transform:translateX(-50%);
+      width:min(780px,92%);
+      text-align:center;
+      z-index:3;
+    }
+    .launchStatus .countdown{
+      margin:0 0 8px;
+      font-size:clamp(38px,8vw,92px);
+    }
+    .speechBubble{
+      display:inline-block;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(4,12,30,.76);
+      padding:12px 16px;
+      color:#eafcff;
+      font-weight:950;
+      box-shadow:0 16px 36px rgba(0,0,0,.28);
+    }
+    .launchScene.phase-home .speechBubble{
+      background:linear-gradient(135deg,rgba(117,244,255,.22),rgba(255,217,106,.16));
+      border-color:rgba(255,217,106,.4);
+    }
+
+    .earthGround{
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:34%;
+      background:
+        radial-gradient(ellipse at 18% 30%,rgba(155,255,133,.42),transparent 28%),
+        radial-gradient(ellipse at 72% 34%,rgba(109,255,159,.36),transparent 30%),
+        linear-gradient(180deg,#2ccb67,#149454 48%,#0b5c43);
+      border-top:1px solid rgba(255,255,255,.2);
+      opacity:0;
+      transition:opacity 1s ease;
+    }
+    .launchScene.phase-home .earthGround{opacity:1}
+
+    .homeMoon{
+      position:absolute;
+      z-index:1;
+      right:13%;
+      top:14%;
+      width:86px;
+      height:86px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 30%,#fffdf0 0 18%,#ffeeb8 19% 67%,#d8b95f 68% 100%);
+      box-shadow:0 0 42px rgba(255,238,184,.58);
+      opacity:0;
+      transform:translateY(-18px) scale(.9);
+      transition:opacity 1s ease, transform 1s ease;
+    }
+    .homeMoon::after{
+      content:"";
+      position:absolute;
+      width:20px;height:20px;
+      border-radius:50%;
+      right:18px;top:23px;
+      background:rgba(194,156,72,.28);
+      box-shadow:-24px 18px 0 -5px rgba(194,156,72,.22), -2px 34px 0 -7px rgba(194,156,72,.2);
+    }
+    .launchScene.phase-home .homeMoon{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .cuteHome{
+      position:absolute;
+      z-index:2;
+      left:10%;
+      bottom:19%;
+      width:270px;
+      height:225px;
+      opacity:0;
+      transform:translateY(24px) scale(.92);
+      transition:opacity 1s ease, transform 1s ease;
+      filter:drop-shadow(0 18px 18px rgba(0,0,0,.34));
+    }
+    .launchScene.phase-home .cuteHome{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+    .homeRoof{
+      position:absolute;
+      left:16px;
+      top:4px;
+      width:238px;
+      height:116px;
+      background:#23d5d4;
+      clip-path:polygon(50% 0,100% 88%,91% 100%,50% 28%,9% 100%,0 88%);
+      filter:drop-shadow(0 5px 0 #071426);
+    }
+    .homeRoof::after{
+      content:"";
+      position:absolute;
+      left:58px;
+      top:48px;
+      width:122px;
+      height:80px;
+      background:#e85448;
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+      z-index:-1;
+    }
+    .homeChimney{
+      position:absolute;
+      right:40px;
+      top:23px;
+      width:32px;
+      height:70px;
+      background:#ffd022;
+      border:5px solid #071426;
+      border-bottom:0;
+      border-radius:3px 3px 0 0;
+    }
+    .homeChimney::before{
+      content:"";
+      position:absolute;
+      left:-9px;
+      top:-20px;
+      width:48px;
+      height:24px;
+      border-radius:5px;
+      background:#ffd8cf;
+      border:5px solid #071426;
+    }
+    .homeBody{
+      position:absolute;
+      left:47px;
+      top:111px;
+      width:176px;
+      height:100px;
+      border-radius:2px;
+      background:#ffb638;
+      border:5px solid #071426;
+      box-shadow:inset -8px -8px 0 rgba(214,112,29,.16);
+    }
+    .homeBase{
+      position:absolute;
+      left:43px;
+      top:206px;
+      width:184px;
+      height:16px;
+      background:#8a4c1c;
+      border:5px solid #071426;
+      border-top:0;
+    }
+    .homeDoor{
+      position:absolute;
+      left:118px;
+      top:141px;
+      width:43px;
+      height:70px;
+      border-radius:3px;
+      background:#f4f4f4;
+      border:5px solid #071426;
+      box-shadow:inset 0 0 0 5px #d5d5d5;
+    }
+    .homeDoor::after{
+      content:"";
+      position:absolute;
+      right:6px;
+      top:34px;
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#e94b3d;
+      border:2px solid #071426;
+    }
+    .homeWindow{
+      position:absolute;
+      width:42px;
+      height:38px;
+      border-radius:4px;
+      background:
+        linear-gradient(90deg,transparent 46%,#071426 47% 53%,transparent 54%),
+        linear-gradient(0deg,transparent 46%,#071426 47% 53%,transparent 54%),
+        #6ee9f1;
+      border:5px solid #071426;
+      box-shadow:0 8px 0 #b86c25;
+    }
+    .homeWindow.left{left:68px;top:145px}
+    .homeWindow.right{right:68px;top:145px}
+    .homeWindow.attic{
+      left:115px;
+      top:73px;
+      width:43px;
+      height:39px;
+      box-shadow:0 7px 0 #b86c25;
+    }
+    .homeBush{
+      position:absolute;
+      bottom:3px;
+      width:82px;
+      height:70px;
+      background:#55bf42;
+      border:5px solid #071426;
+      z-index:-1;
+    }
+    .homeBush.left{
+      left:0;
+      border-radius:55px 55px 0 0;
+      box-shadow:26px -20px 0 -8px #55bf42, 26px -20px 0 -3px #071426;
+    }
+    .homeBush.right{
+      right:0;
+      width:72px;
+      height:54px;
+      border-radius:45px 45px 0 0;
+      box-shadow:-23px -15px 0 -9px #55bf42, -23px -15px 0 -4px #071426;
+    }
+    .homeFlowers{
+      position:absolute;
+      left:58px;
+      bottom:-5px;
+      width:170px;
+      height:25px;
+      background:
+        radial-gradient(circle at 10% 55%,#ff79be 0 4px,transparent 5px),
+        radial-gradient(circle at 24% 35%,#ffe36d 0 4px,transparent 5px),
+        radial-gradient(circle at 40% 60%,#75f4ff 0 4px,transparent 5px),
+        radial-gradient(circle at 58% 42%,#ff79be 0 4px,transparent 5px),
+        radial-gradient(circle at 73% 64%,#ffe36d 0 4px,transparent 5px),
+        radial-gradient(circle at 88% 40%,#75f4ff 0 4px,transparent 5px);
+    }
+
+    .launchCredit{
+      position:absolute;
+      z-index:5;
+      left:50%;
+      bottom:7%;
+      transform:translateX(-50%) translateY(18px);
+      width:min(560px,92%);
+      border-radius:24px;
+      border:1px solid rgba(255,217,106,.42);
+      background:linear-gradient(180deg,rgba(7,18,46,.9),rgba(5,10,28,.94));
+      box-shadow:0 20px 60px rgba(0,0,0,.44), inset 0 0 30px rgba(255,217,106,.08);
+      padding:18px;
+      text-align:center;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .launchCredit.show{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+    .launchCredit h2{
+      margin:0 0 6px;
+      font-size:clamp(23px,4vw,40px);
+      color:#fff7cc;
+      text-shadow:0 0 22px rgba(255,217,106,.38);
+    }
+    .launchCredit p{
+      margin:4px 0;
+      color:#dce7ff;
+      font-weight:850;
+      line-height:1.4;
+    }
+    .launchCredit .creditName{
+      color:var(--gold);
+      font-size:clamp(15px,2vw,19px);
+    }
+    .launchCredit .btn{
+      margin-top:12px;
+      padding:12px 18px;
     }
 
     .toast{
@@ -1311,6 +1975,15 @@
         width:100%;
         text-align:center;
       }
+      .missionQuickActions{
+        width:100%;
+      }
+      .missionQuickActions .infoButton{
+        flex:1 1 170px;
+      }
+      .missionQuickActions .cheatLaunch{
+        flex:0 0 auto;
+      }
       .missionPanel .panelHead p{
         display:block;
         font-size:10.5px;
@@ -1347,6 +2020,7 @@
           <div class="row" style="margin-top:18px">
             <button class="btn primary" id="beginBtn" type="button">Begin Rocket Repair</button>
             <button class="btn ghost" id="howBtn" type="button">How to play</button>
+            <button class="btn primary cheatLaunch" id="cheatLaunchBtn" type="button">Cheat Launch Rocket</button>
           </div>
         </div>
 
@@ -1404,7 +2078,10 @@
               <h2>Choose a Mission</h2>
               <p>Tap any topic to begin. Completed tests collect rocket parts.</p>
             </div>
-            <button class="btn ghost infoButton" id="storyInfoBtn" type="button">Story & How to play</button>
+            <div class="missionQuickActions">
+              <button class="btn ghost infoButton" id="storyInfoBtn" type="button">Story & How to play</button>
+              <button class="btn cheatLaunch" id="cheatLaunchHubBtn" type="button">Cheat Launch</button>
+            </div>
           </div>
           <div class="sequenceNote collapsedNote">
             Non-essential story details are hidden in the Story & How to play button to keep mission selection clear.
@@ -1416,7 +2093,9 @@
               <h3 id="finalTitle">Final Launch Locked</h3>
               <p id="finalMsg">Collect all ten parts before Space Max can rebuild his rocket.</p>
             </div>
-            <button class="btn primary gold" id="launchBtn" type="button" disabled>Launch</button>
+            <div class="finalActions">
+              <button class="btn primary gold" id="launchBtn" type="button" disabled>Launch Rocket</button>
+            </div>
           </div>
           <div class="resetProgressBox">
             <p>Need to start again on this device?</p>
@@ -1425,18 +2104,87 @@
         </div>
       </section>
 
-      <section class="launchScene hidden" id="launchScene">
-        <div class="launchRocket">
-          <div class="rPart nose on"></div>
-          <div class="rPart bodyMain on"></div>
-          <div class="rPart windowPart on"></div>
-          <div class="rPart leftFin on"></div>
-          <div class="rPart rightFin on"></div>
-          <div class="rPart engine on"></div>
-          <div class="rPart flame on"></div>
+      <section class="launchScene hidden" id="launchScene" aria-live="polite">
+        <div class="cinema">
+          <div class="planetEarth"></div>
+          <div class="launchGround"></div>
+          <div class="farewellAliens" aria-label="Cute aliens sending Space Max off">
+            <div class="farewellSign">Go home, Max!</div>
+            <div class="farewellSign thanksLeft">Thank you!</div>
+            <div class="farewellSign thanksRight">Thank you, Max!</div>
+            <div class="farewellSign goodbyeRight">Goodbye!</div>
+            <div class="farewellAlien a1">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+            <div class="farewellAlien a2">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+            <div class="farewellAlien a3">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+            <div class="farewellAlien a4">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+            <div class="farewellAlien a5">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+            <div class="farewellAlien a6">
+              <div class="alienAntenna"></div><div class="alienHead"><div class="alienEye l"></div><div class="alienEye r"></div><div class="alienSmile"></div></div><div class="alienBody"></div><div class="alienArm l"></div><div class="alienArm r"></div><div class="alienLeg l"></div><div class="alienLeg r"></div>
+            </div>
+          </div>
+          <div class="earthGround"></div>
+          <div class="homeMoon" aria-hidden="true"></div>
+          <div class="cuteHome" aria-label="Space Max's home">
+            <div class="homeBush left"></div>
+            <div class="homeBush right"></div>
+            <div class="homeChimney"></div>
+            <div class="homeRoof"></div>
+            <div class="homeBody"></div>
+            <div class="homeBase"></div>
+            <div class="homeDoor"></div>
+            <div class="homeWindow attic"></div>
+            <div class="homeWindow left"></div>
+            <div class="homeWindow right"></div>
+            <div class="homeFlowers"></div>
+          </div>
+
+          <div class="spaceRocket3d" aria-label="Space Max fraction rocket">
+            <div class="rocket3dPart rocket3dNose"></div>
+            <div class="rocket3dPart rocket3dBody"></div>
+            <div class="rocket3dPart rocket3dWindow"></div>
+            <div class="rocket3dPart rocket3dDoor"></div>
+            <div class="rocket3dPart rocket3dLeftFin"></div>
+            <div class="rocket3dPart rocket3dRightFin"></div>
+            <div class="rocket3dPart rocket3dEngine"></div>
+            <div class="rocket3dPart rocket3dFlame"></div>
+          </div>
+
+          <div class="spaceMaxActor" id="spaceMaxActor" aria-label="Space Max">
+            <div class="astroHead"><div class="astroVisor"></div></div>
+            <div class="astroBody"></div>
+            <div class="astroArm l"></div><div class="astroArm r"></div>
+            <div class="astroLeg l"></div><div class="astroLeg r"></div>
+          </div>
+
+          <div class="spaceMother" id="spaceMother" aria-label="Space Max's mother">
+            <div class="astroHead"><div class="astroVisor"></div></div>
+            <div class="astroBody"></div>
+            <div class="astroArm l"></div><div class="astroArm r"></div>
+            <div class="astroLeg l"></div><div class="astroLeg r"></div>
+          </div>
+
+          <div class="launchStatus">
+            <div class="countdown" id="countdown">Ready</div>
+            <div class="speechBubble" id="launchMsg">Space Max walks towards the Fraction Rocket.</div>
+          </div>
+
+          <div class="launchCredit" id="launchCredit">
+            <h2>Home at Last</h2>
+            <p>Space Max and the Lost Fraction Rocket Parts</p>
+            <p class="creditName">Created by Lim Kim Sze</p>
+            <button class="btn primary gold" id="backHubAfterLaunchBtn" type="button">Back to Rocket Hub</button>
+          </div>
         </div>
-        <div class="countdown" id="countdown">5</div>
-        <div class="launchMsg">After many years on the fraction planet, Space Max finally rebuilds his rocket and returns to Planet Earth.</div>
       </section>
 
       <div class="modalBackdrop hidden" id="modalBackdrop">
@@ -1847,30 +2595,321 @@
       }, 50);
     }
 
-    function launch(){
-      if(countCollected() !== MISSIONS.length){
+    let launchTimers = [];
+    let launchAudioCtx = null;
+    let activeLaunchSounds = [];
+
+    function getLaunchAudio(){
+      try{
+        launchAudioCtx = launchAudioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        if(launchAudioCtx.state === "suspended") launchAudioCtx.resume();
+        return launchAudioCtx;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function stopLaunchSounds(){
+      activeLaunchSounds.forEach(stop => {
+        try{ stop(); }catch(e){}
+      });
+      activeLaunchSounds = [];
+    }
+
+    function clearLaunchTimers(){
+      launchTimers.forEach(timer => clearTimeout(timer));
+      launchTimers = [];
+      stopLaunchSounds();
+      if("speechSynthesis" in window) speechSynthesis.cancel();
+    }
+
+    function queueLaunchStep(delay, action){
+      const timer = setTimeout(action, delay);
+      launchTimers.push(timer);
+    }
+
+    function chooseLaunchVoice(style = "default"){
+      const voices = speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
+      if(style === "ukFemale"){
+        return voices.find(v => /en[-_]GB/i.test(v.lang) && /female|woman|susan|serena|kate|emma|amy|libby|sonia|zira|hazel/i.test(v.name))
+          || voices.find(v => /en[-_]GB/i.test(v.lang))
+          || voices.find(v => /English/i.test(v.name + " " + v.lang) && /female|woman|susan|serena|kate|emma|amy|libby|sonia|zira|hazel/i.test(v.name));
+      }
+      return voices.find(v => /en[-_]SG|English/i.test(v.lang + " " + v.name)) || voices[0] || null;
+    }
+
+    function speakLaunchLine(text, rate = .9, options = {}){
+      if(!("speechSynthesis" in window)) return;
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = rate;
+      utterance.pitch = 1.05;
+      utterance.volume = 1;
+      if(options.voiceStyle === "ukFemale"){
+        utterance.lang = "en-GB";
+        utterance.pitch = 1.18;
+      }
+      utterance.voice = chooseLaunchVoice(options.voiceStyle);
+      speechSynthesis.speak(utterance);
+    }
+
+    function speakMotherLines(lines, index = 0){
+      if(!("speechSynthesis" in window) || index >= lines.length) return;
+
+      const line = lines[index];
+      $("launchMsg").textContent = line;
+
+      const utterance = new SpeechSynthesisUtterance(line);
+      utterance.lang = "en-GB";
+      utterance.rate = .82;
+      utterance.pitch = 1.16;
+      utterance.volume = 1;
+      utterance.voice = chooseLaunchVoice("ukFemale");
+
+      let movedNext = false;
+      function nextLine(){
+        if(movedNext) return;
+        movedNext = true;
+        if(index + 1 < lines.length){
+          queueLaunchStep(450, () => speakMotherLines(lines, index + 1));
+        }
+      }
+
+      utterance.onend = nextLine;
+      utterance.onerror = nextLine;
+      speechSynthesis.speak(utterance);
+      queueLaunchStep(Math.max(2800, line.length * 75), nextLine);
+    }
+
+    function playTone(freq, duration = .18, type = "sine", gainValue = .08){
+      const ctx = getLaunchAudio();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(gainValue, ctx.currentTime + .025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration + .04);
+    }
+
+    function playCountdownBeep(){
+      playTone(760, .16, "sine", .09);
+    }
+
+    function playRocketRumble(){
+      const ctx = getLaunchAudio();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(48, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(82, ctx.currentTime + 2.8);
+      filter.type = "lowpass";
+      filter.frequency.value = 180;
+      gain.gain.setValueAtTime(.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.13, ctx.currentTime + .18);
+      gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + 3.1);
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 3.2);
+      activeLaunchSounds.push(() => osc.stop());
+    }
+
+    function playGeneratedSpaceWhoosh(){
+      const ctx = getLaunchAudio();
+      if(!ctx) return;
+      const buffer = ctx.createBuffer(1, ctx.sampleRate * 2.2, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for(let i = 0; i < data.length; i++){
+        data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+      }
+      const src = ctx.createBufferSource();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+      src.buffer = buffer;
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(320, ctx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(1300, ctx.currentTime + 1.8);
+      gain.gain.setValueAtTime(.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.10, ctx.currentTime + .12);
+      gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + 2.1);
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      src.start();
+      activeLaunchSounds.push(() => src.stop());
+    }
+
+    function playSpaceWhoosh(){
+      const whooshUrl = "https://raw.githubusercontent.com/limkimsze-maker/P2-Space-Max-and-Adding-of-Like-Fractions/7a77c180ec7bc5761a14d4cd5321d1664c414808/dragon-studio-spaceship-whoosh-video-game-sound-320171.mp3";
+      try{
+        const audio = new Audio(whooshUrl);
+        audio.volume = .9;
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        activeLaunchSounds.push(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        });
+        if(playPromise && typeof playPromise.catch === "function"){
+          playPromise.catch(() => playGeneratedSpaceWhoosh());
+        }
+      }catch(e){
+        playGeneratedSpaceWhoosh();
+      }
+    }
+
+    function playAlienSendoffSound(){
+      const alienTalkUrl = "https://raw.githubusercontent.com/limkimsze-maker/P2-P3-Space-Max-and-the-Lost-Fraction-Rocket-Parts/889158936b29c041a77a33fc9f222573ca5966fd/artificiallyinspired-alien-talking-312011.mp3";
+      try{
+        const audio = new Audio(alienTalkUrl);
+        audio.volume = .52;
+        audio.loop = true;
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        activeLaunchSounds.push(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        });
+        if(playPromise && typeof playPromise.catch === "function"){
+          playPromise.catch(() => {});
+        }
+      }catch(e){}
+    }
+
+    function playEarthChime(){
+      [523, 659, 784].forEach((freq, i) => {
+        queueLaunchStep(i * 130, () => playTone(freq, .32, "sine", .075));
+      });
+    }
+
+    function playSparkle(){
+      [988, 1175, 1568, 1319].forEach((freq, i) => {
+        queueLaunchStep(i * 90, () => playTone(freq, .22, "triangle", .055));
+      });
+    }
+
+    function setLaunchPhase(phase, message, countText = ""){
+      const launchScene = $("launchScene");
+      launchScene.className = "launchScene " + phase;
+      $("launchMsg").textContent = message;
+      $("countdown").textContent = countText || "";
+    }
+
+    function launch(allowCheat = false){
+      if(!allowCheat && countCollected() !== MISSIONS.length){
         showToast("Collect all parts first.");
         return;
       }
 
+      clearLaunchTimers();
+      $("launchCredit").classList.remove("show");
       hub.classList.add("hidden");
       cover.classList.add("hidden");
       $("launchScene").classList.remove("hidden");
 
-      let n = 5;
-      const countdown = $("countdown");
-      countdown.textContent = n;
-      const timer = setInterval(() => {
-        n--;
-        if(n > 0){
-          countdown.textContent = n;
-        }else if(n === 0){
-          countdown.textContent = "BLAST OFF!";
-        }else{
-          clearInterval(timer);
-          countdown.textContent = "HOME TO EARTH!";
+      setLaunchPhase("phase-walk", "Space Max walks towards the Fraction Rocket.", "Ready");
+      playAlienSendoffSound();
+
+      queueLaunchStep(2200, () => {
+        setLaunchPhase("phase-board", "Space Max enters the Fraction Rocket.", "Boarding");
+      });
+
+      queueLaunchStep(3500, () => {
+        setLaunchPhase("phase-count", "Countdown begins.", "3");
+        playCountdownBeep();
+        speakLaunchLine("3", .78);
+      });
+      queueLaunchStep(4550, () => {
+        $("countdown").textContent = "2";
+        playCountdownBeep();
+        speakLaunchLine("2", .78);
+      });
+      queueLaunchStep(5600, () => {
+        $("countdown").textContent = "1";
+        playCountdownBeep();
+        speakLaunchLine("1", .78);
+      });
+      queueLaunchStep(6600, () => {
+        setLaunchPhase("phase-flight", "Blast off! Space Max flies through space towards Earth.", "BLAST OFF!");
+        stopLaunchSounds();
+        playRocketRumble();
+        playSpaceWhoosh();
+      });
+      queueLaunchStep(10100, () => {
+        setLaunchPhase("phase-earth", "Earth is in sight. The rocket comes in to land.", "EARTH");
+        playEarthChime();
+      });
+      queueLaunchStep(12800, () => {
+        setLaunchPhase("phase-home", "Space Max reaches home and hugs his mother.", "");
+        playSparkle();
+      });
+      queueLaunchStep(13700, () => {
+        const homeLine = "Mum, I'm finally back. Every fraction mission gave me one more rocket part, and every part brought me one step closer to you.";
+        $("launchMsg").textContent = homeLine;
+        speakLaunchLine(homeLine, .88);
+      });
+      queueLaunchStep(23000, () => {
+        if("speechSynthesis" in window) speechSynthesis.cancel();
+        speakMotherLines([
+          "My brave Max, you never gave up.",
+          "Every fraction you solved was a small step, and all those small steps brought you home."
+        ]);
+        playSparkle();
+      });
+      queueLaunchStep(34500, () => {
+        $("launchCredit").classList.add("show");
+        playEarthChime();
+      });
+    }
+
+    function backToRocketHubAfterLaunch(){
+      clearLaunchTimers();
+      $("launchCredit").classList.remove("show");
+      const launchScene = $("launchScene");
+      launchScene.className = "launchScene hidden";
+      showHub();
+    }
+
+    function requestCheatLaunchPassword(){
+      const html = `
+        <input id="cheatLaunchPass" type="password" inputmode="numeric" placeholder="Enter launch password" />
+        <div class="teacherGrid">
+          <button id="cheatLaunchNow" type="button">Launch Rocket</button>
+          <button id="cancelCheatLaunch" type="button">Cancel</button>
+        </div>
+      `;
+      openModal("Cheat Launch", "Enter the launch password to start the rocket scene.", html);
+
+      setTimeout(() => {
+        const input = document.getElementById("cheatLaunchPass");
+        const launchNow = document.getElementById("cheatLaunchNow");
+        const cancel = document.getElementById("cancelCheatLaunch");
+        input.focus();
+
+        function tryCheatLaunch(){
+          const entered = input.value || "";
+          const launchCode = String.fromCharCode(54, 55);
+          if(entered === launchCode){
+            closeModal();
+            launch(true);
+          }else{
+            showToast("Wrong password.");
+          }
         }
-      }, 850);
+
+        launchNow.addEventListener("click", tryCheatLaunch);
+        input.addEventListener("keydown", e => { if(e.key === "Enter") tryCheatLaunch(); });
+        cancel.addEventListener("click", closeModal);
+      }, 50);
     }
 
     document.addEventListener("click", (e) => {
@@ -1892,7 +2931,10 @@
     $("modalClose").addEventListener("click", closeModal);
     modalBackdrop.addEventListener("click", (e) => { if(e.target === modalBackdrop) closeModal(); });
     $("teacherBtn").addEventListener("click", () => teacherUnlocked ? teacherPanel() : unlockTeacher());
-    launchBtn.addEventListener("click", launch);
+    launchBtn.addEventListener("click", () => launch(false));
+    $("cheatLaunchBtn").addEventListener("click", requestCheatLaunchPassword);
+    $("cheatLaunchHubBtn").addEventListener("click", requestCheatLaunchPassword);
+    $("backHubAfterLaunchBtn").addEventListener("click", backToRocketHubAfterLaunch);
 
     let resetHoldTimer = null;
     let resetHoldDone = false;
